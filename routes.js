@@ -15,25 +15,23 @@ const requestListener = (req, res) => {
         res.write('</body></html>');
         res.end();
     } else if(req.url === '/login' && req.method === 'POST'){
-        
+        res.statusCode = 302;
         const data = [];
-        req.on('data', chunk => {
-            data.push(chunk);
+        req.on('data', chunck => {
+            data.push(chunck);
         });
 
         req.on('end', () => {
             const parsedData = Buffer.concat(data).toString();
-            const {login, password} = parseConnectionForm(parsedData);
-
+            const {login, password} = parseConnectionData(parsedData);
             if(login === 'alex' && password === '123'){
                 res.setHeader('Location', '/');
             } else {
                 res.setHeader('Location', '/connection');
             }
-            res.statusCode = 302;
-            
             res.end();
         });
+        
     } else {
         res.write('<html>');
         res.write('<head><title>Not found</title></head><body>');
@@ -42,14 +40,12 @@ const requestListener = (req, res) => {
         res.statusCode = 404;
         res.end();
     }
-    
 };
 
-const parseConnectionForm = (parsedData) => {
+const parseConnectionData = parsedData => {
     const list = parsedData.split('&');
     const login = list[0].split('=')[1];
     const password = list[1].split('=')[1];
-    return {login: login, password: password};
+    return {login, password};
 }
-
 module.exports.requestListener = requestListener;
