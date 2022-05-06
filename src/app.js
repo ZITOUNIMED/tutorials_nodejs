@@ -12,7 +12,7 @@ const server = http.createServer((req, res) => {
         connectionRoutes(req, res);
     } else if(req.url === '/login'){
         loginRoutes(req, res);
-    } else if(req.url === '/product'){
+    } else if(req.url.startsWith('/product')){
         productRoutes(req, res);
     } else {
         res.write('<html>');
