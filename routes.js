@@ -9,7 +9,7 @@ const requestListener = (req, res) => {
     } else if(req.url === '/connection'){
         res.write('<html>');
         res.write('<head><title>Connection</title></head><body>');
-        res.write('<h2>Connection form:</h2>');
+        res.write('<h2>Connection Form:</h2>');
         res.write('<form method="POST" action="login"><div><label>Login</label><input type="text" name="login"/></form>');
         res.write('<div><label>Passord</label><input type="password" name="password"/></div><button type="submit">Send</button></form>');
         res.write('</body></html>');

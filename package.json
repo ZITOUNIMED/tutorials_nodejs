@@ -1,0 +1,24 @@
+{
+  "name": "tutorials_nodejs",
+  "version": "1.0.0",
+  "description": "Complete nodejs guide",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js",
+    "start:javascriptBasics": "node ./javascript_basics.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZITOUNIMED/tutorials_nodejs.git"
+  },
+  "author": "mohamed Zitouni",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ZITOUNIMED/tutorials_nodejs/issues"
+  },
+  "homepage": "https://github.com/ZITOUNIMED/tutorials_nodejs#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}
