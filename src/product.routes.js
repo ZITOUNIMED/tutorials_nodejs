@@ -1,26 +1,18 @@
 const productRoutes = (req, res) => {
     if(req.method === 'POST'){
         res.statusCode = 201;
-        const data = [];
-        req.on('data', chunck => {
-            data.push(chunck);
-        });
-
-        req.on('end', () => {
-            const parsedData = Buffer.concat(data).toString();
-            const {title, price, amount, postAction} = parseProductData(parsedData);
-            if(!products.some(product => product.title === title)){
-                products.push({title, price, amount});
-            } else if(postAction === 'update'){
-                products.forEach(product => {
-                    if(product.title === title){
-                        product.price = price;
-                        product.amount = amount;
-                    }
-                });
-            }
-            res.end(template());
-        });
+        const {title, price, amount, postAction} = req.body;
+        if(!products.some(product => product.title === title)){
+            products.push({title, price, amount});
+        } else if(postAction === 'update'){
+            products.forEach(product => {
+                if(product.title === title){
+                    product.price = price;
+                    product.amount = amount;
+                }
+            });
+        }
+        res.end(template());
     } else if(req.method === 'DELETE'){
         const title = req.url.split('title=')[1];
         products = products.filter(product => product.title !== title);
@@ -30,15 +22,6 @@ const productRoutes = (req, res) => {
         res.end(template());
     }
 };
-
-const parseProductData = parsedData => {
-    const list = parsedData.split('&');
-    const title = list[0].split('=')[1];
-    const price = list[1].split('=')[1];
-    const amount = list[2].split('=')[1];
-    const postAction = list[3].split('=')[1];
-    return {title, price, amount, postAction};
-}
 
 let products = [{title: "t1", price: '1', amount: '42'}, {title: "t2", price: '34', amount: '2'}, {title: "t3", price: '53', amount: '6'}];
 
