@@ -1,4 +1,4 @@
-const welcomeRoutes = (req, res) => {
+const welcomeRoutes = (req, res, next) => {
         res.end(template);
 };
 
