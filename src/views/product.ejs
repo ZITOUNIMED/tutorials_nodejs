@@ -1,3 +1,4 @@
+<%- include('includes/head.ejs') %>
 <div class="card-group">
     <div class="card">
         <div class="card-body">
@@ -33,20 +34,22 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{#each products}}
+                    <% for(let product of products ) { %>
                         <tr>
-                            <td>{{this.title}}</td> 
-                            <td>{{this.price}}</td> 
-                            <td>{{this.amount}}</td>
+                            <td><%= product.title %></td> 
+                            <td><%= product.price %></td> 
+                            <td><%= product.amount %></td>
                             <td>
-                                <button class="btn btn-danger btn-sm" onclick="remove('{{this.title}}')">Remove</button>
-                                <button class="btn btn-info btn-sm" onclick="update('{{this.title}}')">Update</button>
+                                <button class="btn btn-danger btn-sm" onclick="remove('<%= product.title %>')">Remove</button>
+                                <button class="btn btn-info btn-sm" onclick="update('<%= product.title %>')">Update</button>
                             </td>
                         </tr>
-                    {{/each}}
+                    <% } %>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 <script src="/js/products.js"></script>
+
+<%- include('includes/end.ejs') %>
