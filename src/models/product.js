@@ -1,4 +1,7 @@
-let products = [{title: "t1", price: '1', amount: '42'}, {title: "t2", price: '34', amount: '2'}, {title: "t3", price: '53', amount: '6'}];
+const fs = require('fs');
+const path = require('path');
+
+const p = path.join(__dirname, '..', '..', 'data', 'products.json');
 
 module.exports = class Product {
     constructor(title, price, amount) {
@@ -7,29 +10,60 @@ module.exports = class Product {
         this.amount = amount;
     }
 
-    add(){
+    add(callback){
         const {title, price, amount} = this;
-        if(!products.some(product => product.title === title)){
-            products.push({title, price, amount});
-        }
-    }
 
-    update() {
-        const {title, price, amount} = this;
-        for(let p of products){
-            if(p.title === title){
-                p.price = price;
-                p.amount = amount;
-                break;
+        readFile(data => {
+            if(!data.some(product => product.title === title)){
+                data.push({title, price, amount});
             }
+            writeFile(data, callback);
+        });
+    }
+
+    update(callback) {
+        const {title, price, amount} = this;
+        readFile(data => {
+            for(let p of data){
+                if(p.title === title){
+                    p.price = price;
+                    p.amount = amount;
+                    break;
+                }
+            }
+            writeFile(data, callback);
+        });
+    }
+
+    static delete(title, callback) {
+        readFile(data => {
+            data = data.filter(product => product.title !== title);
+            writeFile(data, callback);
+        });
+    }
+
+    static getProducts(callback){
+        readFile(data => {
+            callback(data);
+        });
+    }
+}
+
+const writeFile = (product, callback) => {
+    fs.writeFile(p, JSON.stringify(product), err => {
+        console.log(err);
+    }, () => {
+        callback('product saved with success!');
+    });
+}
+
+const readFile = (callback) => {
+    return fs.readFile(p, (err, fileContent) => {
+        if(err){
+            console.log(err);
+            callback([]);
+        } else {
+           callback(JSON.parse(fileContent));
         }
-    }
-
-    static delete(title) {
-        products = products.filter(product => product.title !== title);
-    }
-
-    static getProducts(){
-        return products;
-    }
+    })
 }
