@@ -1,11 +1,13 @@
 const Product = require('../models/product');
+const { isAuthenticated } = require('../util/auth');
 
 module.exports.getProducts = (req, res) => {
     Product.getProducts(data => {
         res.render('product', {
             products: data,
             pageTitle: 'Products Page',
-            page: 'product'
+            page: 'product',
+            isAuthenticated: isAuthenticated(req),
         });
     });
 }
@@ -21,7 +23,8 @@ module.exports.save = (req, res) => {
                 res.render('product', {
                     products: data,
                     pageTitle: 'Products Page',
-                    page: 'product'
+                    page: 'product',
+                    isAuthenticated: isAuthenticated(req),
                 });
             });
         });
@@ -32,7 +35,8 @@ module.exports.save = (req, res) => {
                 res.render('product', {
                     products: data,
                     pageTitle: 'Products Page',
-                    page: 'product'
+                    page: 'product',
+                    isAuthenticated: isAuthenticated(req),
                 });
             });
         });

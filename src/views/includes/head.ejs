@@ -7,15 +7,17 @@
 
     <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
         <li><a href="/" class="nav-link px-2 <%= page === 'welcome' ? 'link-dark' : 'link-secondary' %>">Home</a></li>
-        <li><a href="/product" class="nav-link px-2 <%= page === 'product' ? 'link-dark' : 'link-secondary' %>">Products</a></li>
+        <% if (isAuthenticated) { %>
+            <li><a href="/product" class="nav-link px-2 <%= page === 'product' ? 'link-dark' : 'link-secondary' %>">Products</a></li>
+        <% } %>
     </ul>
 
     <div class="col-md-3 text-end">
-        <% if (page === 'welcome') { %>
+        <% if (isAuthenticated) { %>
+            <button type="button" class="btn btn-outline-primary me-2" onclick="logout()">Logout</button>
+        <% } else { %>
             <button type="button" class="btn btn-outline-primary me-2" onclick="login()">Login</button>
             <button type="button" class="btn btn-primary">Sign-up</button>
-        <% } else { %>
-            <button type="button" class="btn btn-outline-primary me-2" onclick="logout()">Logout</button>
         <% } %>
     </div>
     </header>
