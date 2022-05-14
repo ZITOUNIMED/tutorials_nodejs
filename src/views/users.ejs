@@ -1,5 +1,69 @@
 <%- include('includes/head.ejs') %>
 
-<h2>Hello from Users Page</h2>
-  
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Users</h5>
+        <table class="table table-striped" id="usersTableId">
+            <thead>
+                <tr>
+                    <th>First Name</th> <th>Last Name</th> <th>Login</th> 
+                    <th>
+                        <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></button>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(let user of users ) { %>
+                    <tr>
+                        <td><%= user.firstname %></td> 
+                        <td><%= user.lastname %></td> 
+                        <td><%= user.login %></td>
+                        <td>
+                            <button class="btn btn-danger btn-sm" onclick="remove('<%= user.login %>')">Remove</button>
+                            <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="update('<%= user.login %>')">Update</button>
+                        </td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+  <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">User</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <form method="POST" action="users">
+            <div class="mb-3">
+                <label for="title" class="form-label">First Name</label>
+                <input type="text" class="form-control" id="firstname" name="firstname">
+            </div>
+            <div class="mb-3">
+                <label for="price" class="form-label">Last Name</label>
+                <input type="text" class="form-control" id="lastname" name="lastname">
+            </div>
+            <div class="mb-3">
+                <label for="amount" class="form-label">Login</label>
+                <input type="text" class="form-control" id="login" name="login">
+            </div>
+            <input name="postAction" type="text" value="create" id="postActionIdUsers" hidden/>
+            <div class="mb-3" style="float: right">
+                <button type="submit" class="btn btn-success">Save</button>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+    </div>
+    </div>
+</div>
+</div>
+<script src="/js/users.js"></script>
+<script src="/js/bootstrap.min.js"></script>
 <%- include('includes/end.ejs') %>

@@ -4,6 +4,7 @@ const path = require('path');
 const router = express.Router();
 
 router.get('/', (req, res) => {
+        res.cookie('isAuthenticated', false);
         res.sendFile(path.join(__dirname, '..', 'views', 'connection.html'));
 });
 
