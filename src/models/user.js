@@ -35,6 +35,13 @@ module.exports = class User {
         });
     }
 
+    static getUserByLogin(login, callback) {
+        readFile(data => {
+            const user = data.find(u => u.login === login);
+            callback(user);
+        });
+    }
+
     static delete(login, callback) {
         readFile(data => {
             data = data.filter(u => u.login !== login);
