@@ -6,6 +6,7 @@ const { welcomeRoutes } = require('./routes/welcome');
 const { connectionRoutes } = require('./routes/connection'); 
 const { loginRoutes } = require('./routes/login'); 
 const { productRoutes } = require('./routes/product'); 
+const { usersRoutes } = require('./routes/users'); 
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use('/connection', connectionRoutes);
 app.use('/login', loginRoutes);
 app.use('/product*', productRoutes);
+app.use('/users', usersRoutes);
 app.use(welcomeRoutes);
 
 

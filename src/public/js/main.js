@@ -5,3 +5,7 @@ function login(){
 function logout(){
     window.location.href = '/connection';
 }
+
+function userProfile(){
+    window.location.href = '/users/profile';
+}
