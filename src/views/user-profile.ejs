@@ -1,5 +1,19 @@
 <%- include('includes/head.ejs') %>
-
-<h2>Hello from User Profile Page</h2>
+<link href="/css/user-profile.css" rel="stylesheet">
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">User Profile</h5>
+        <p></p>
+        <div class="mb-3">
+            <label for="title" class="form-label">First Name:</label> <%= user.firstname %>
+        </div>
+        <div class="mb-3">
+            <label for="price" class="form-label">Last Name:</label> <%= user.lastname %>
+        </div>
+        <div class="mb-3">
+            <label for="amount" class="form-label">Login:</label> <%= user.login %>
+        </div>
+    </div>
+</div>
   
 <%- include('includes/end.ejs') %>

@@ -1,4 +1,4 @@
-const { isAuthenticated } = require('../util/auth');
+const { isAuthenticated, getConnectedUserLogin } = require('../util/auth');
 const User = require('../models/user');
 
 module.exports.getUsersPage = (req, res) => {
@@ -13,10 +13,13 @@ module.exports.getUsersPage = (req, res) => {
 };
 
 module.exports.getUserProfilePage = (req, res) => {
-    res.render('user-profile' , { 
-        pageTitle: 'User Profile Page',
-        page: '',
-        isAuthenticated: isAuthenticated(req),
+    User.getUserByLogin(getConnectedUserLogin(req), user => {
+        res.render('user-profile' , { 
+            pageTitle: 'User Profile Page',
+            page: '',
+            user: user,
+            isAuthenticated: isAuthenticated(req),
+        });
     });
 };
 
