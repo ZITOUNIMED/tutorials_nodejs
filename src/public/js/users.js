@@ -25,6 +25,7 @@ function update(login){
             document.getElementById('firstname').value=rows[i].childNodes[1].innerText;
             document.getElementById('lastname').value=rows[i].childNodes[3].innerText;
             document.getElementById('login').value=rows[i].childNodes[5].innerText;
+            document.getElementById('role').value=rows[i].childNodes[7].innerText;
         }
     }
 

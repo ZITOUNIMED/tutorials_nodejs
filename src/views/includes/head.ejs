@@ -12,6 +12,8 @@
         <li><a href="/" class="nav-link px-2 <%= page === 'welcome' ? 'link-dark' : 'link-secondary' %>">Home</a></li>
         <% if (isAuthenticated) { %>
             <li><a href="/product" class="nav-link px-2 <%= page === 'product' ? 'link-dark' : 'link-secondary' %>">Products</a></li>
+        <% } %>
+        <% if (isAdmin) { %>
             <li><a href="/users" class="nav-link px-2 <%= page === 'users' ? 'link-dark' : 'link-secondary' %>">Users</a></li>
         <% } %>
     </ul>
