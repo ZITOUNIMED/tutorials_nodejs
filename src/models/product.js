@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const db = require('../util/database');
 
 const p = path.join(__dirname, '..', '..', 'data', 'products.json');
 
@@ -11,62 +12,21 @@ module.exports = class Product {
         this.creatorLogin = creatorLogin;
     }
 
-    add(callback){
+    add(){
         const {title, price, amount, creatorLogin} = this;
-
-        readFile(creatorLogin, data => {
-            if(!data.some(product => product.title === title)){
-                data.push({title, price, amount, creatorLogin});
-            }
-            writeFile(data, callback);
-        });
+        return db.execute('INSERT INTO products (title, price, amount, creatorLogin) values (?, ?, ?, ?)', [title, price, amount, creatorLogin]);
     }
 
-    update(callback) {
-        const {title, price, amount, creatorLogin} = this;
-        readFile(creatorLogin, data => {
-            for(let p of data){
-                if(p.title === title){
-                    p.price = price;
-                    p.amount = amount;
-                    p.creatorLogin = creatorLogin;
-                    break;
-                }
-            }
-            writeFile(data, callback);
-        });
+    update() {
+        const {title, price, amount} = this;
+        return db.execute('UPDATE products SET price=?, amount=? WHERE title=?', [price, amount, title]);
     }
 
-    static delete(title, callback) {
-        readFile('', data => {
-            data = data.filter(product => product.title !== title);
-            writeFile(data, callback);
-        });
+    static delete(title) {
+        return db.execute('DELETE FROM products WHERE title=?', [title])
     }
 
-    static getProducts(creatorLogin, callback){
-        readFile(creatorLogin, data => {
-            callback(data);
-        });
+    static getProducts(creatorLogin){
+        return db.execute('SELECT * FROM products WHERE products.creatorLogin = ?', [creatorLogin]);
     }
-}
-
-const writeFile = (product, callback) => {
-    fs.writeFile(p, JSON.stringify(product), err => {
-        console.log(err);
-    }, () => {
-        callback('product saved with success!');
-    });
-}
-
-const readFile = (creatorLogin, callback) => {
-    return fs.readFile(p, (err, fileContent) => {
-        if(err){
-            console.log(err);
-            callback([]);
-        } else {
-            const allProducts = JSON.parse(fileContent);
-           callback(allProducts.filter(p => p.creatorLogin === creatorLogin));
-        }
-    })
 }

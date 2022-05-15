@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const p = path.join(__dirname, '..', '..', 'data', 'users.json');
+const db = require('../util/database');
 
 module.exports = class User {
     constructor(firstname, lastname, login, role) {
@@ -11,68 +12,25 @@ module.exports = class User {
         this.role = role;
     }
 
-    add(callback){
+    add(){
         const {firstname, lastname, login, role} = this;
-
-        readFile(data => {
-            if(!data.some(u => u.login === login)){
-                data.push({firstname, lastname, login, role});
-            }
-            writeFile(data, callback);
-        });
+        return db.execute('INSERT INTO users (firstname, lastname, login, role) values (?, ?, ?, ?)', [firstname, lastname, login, role]);
     }
 
-    update(callback) {
+    update() {
         const {firstname, lastname, login, role} = this;
-        readFile(data => {
-            for(let u of data){
-                if(u.login === login){
-                    u.firstname = firstname;
-                    u.lastname = lastname;
-                    u.role = role;
-                    break;
-                }
-            }
-            writeFile(data, callback);
-        });
+        return db.execute('UPDATE users SET firstname=?, lastname=?, role=? WHERE login=?', [firstname, lastname, role, login]);
     }
 
-    static getUserByLogin(login, callback) {
-        readFile(data => {
-            const user = data.find(u => u.login === login);
-            callback(user);
-        });
+    static getUserByLogin(login) {
+        return db.execute('SELECT * FROM users WHERE login = ?', [login]);
     }
 
-    static delete(login, callback) {
-        readFile(data => {
-            data = data.filter(u => u.login !== login);
-            writeFile(data, callback);
-        });
+    static delete(login) {
+        return db.execute('DELETE FROM users WHERE login=?', [login])
     }
 
-    static getUsers(callback){
-        readFile(data => {
-            callback(data);
-        });
+    static getUsers(){
+        return db.execute('SELECT * FROM users');
     }
-}
-
-const writeFile = (user, callback) => {
-    fs.writeFile(p, JSON.stringify(user), err => {
-        console.log(err);
-    }, () => {
-        callback('user saved with success!');
-    });
-}
-
-const readFile = (callback) => {
-    return fs.readFile(p, (err, fileContent) => {
-        if(err){
-            console.log(err);
-            callback([]);
-        } else {
-           callback(JSON.parse(fileContent));
-        }
-    })
 }

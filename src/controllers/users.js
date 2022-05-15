@@ -6,13 +6,14 @@ module.exports.getUsersPage = (req, res) => {
 };
 
 module.exports.getUserProfilePage = (req, res) => {
-    User.getUserByLogin(getConnectedUserLogin(req), user => {
+    User.getUserByLogin(getConnectedUserLogin(req))
+    .then(([data, _]) => {
         res.render('user-profile' , { 
             pageTitle: 'User Profile Page',
             page: '',
-            user: user,
+            user: data[0],
             isAuthenticated: isAuthenticated(req),
-            isAdmin: user.role === 'ADMIN',
+            isAdmin: data[0].role === 'ADMIN',
         });
     });
 };
@@ -23,19 +24,19 @@ module.exports.save = (req, res) => {
 
     if(postAction === 'update'){
         res.statusCode = 200;
-        user.update(() => {
+        user.update().then(() => {
             getUsers(req, res);
-        });
+        }).catch(err => {console.log(err)});
     } else {
         res.statusCode = 201;
-        user.add(() => {
+        user.add().then(() => {
             getUsers(req, res);
-        });
+        }).catch(err => {console.log(err)});
    }
 }
 
 const getUsers = (req, res) => {
-    User.getUsers(data => {
+    User.getUsers().then(([data, _]) => {
         isAdmin(req, isAnAdmin => {
             res.render('users', {
                 users: data,
@@ -45,8 +46,7 @@ const getUsers = (req, res) => {
                 isAdmin: isAnAdmin,
             });
         });
-        
-    });
+    }).catch(err => {console.log(err)});
 }
 
 module.exports.delete = (req, res) => {

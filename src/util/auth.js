@@ -9,7 +9,7 @@ module.exports.getConnectedUserLogin = (req) => {
 }
 
 module.exports.isUserExisting = (login, callback) => {
-    getUserByLogin(login, user => {
+    getUserByLogin(login).then(([user, _]) => {
         if(!!user){
             callback(true);
         } else {
@@ -21,21 +21,21 @@ module.exports.isUserExisting = (login, callback) => {
 module.exports.isAdmin = (req, callback) => {
     const login = extractCookies(req.get('Cookie')).login;
 
-    getUserByLogin(login, user => {
-        if(user && user.role === 'ADMIN'){
+    getUserByLogin(login).then(([data, _]) => {
+        if(data[0] && data[0].role === 'ADMIN'){
             callback(true);
         } else {
             callback(false);
         }
-    });
+    }).catch(err => {console.log(err)});
 }
 
 
 module.exports.isAdminConnected = (req, res, next) => {
     const login = extractCookies(req.get('Cookie')).login;
 
-    getUserByLogin(login, user => {
-        if(user && user.role === 'ADMIN'){
+    getUserByLogin(login).then(([data, _]) => {
+        if(data[0] && data[0].role === 'ADMIN'){
             next();
         } else {
             res.render('error' , { 
@@ -46,8 +46,7 @@ module.exports.isAdminConnected = (req, res, next) => {
                 isAdmin: false,
             });
         }
-    });
-    
+    }).catch(err => {console.log(err)});
 }
 
 const extractCookies = cookiesStr => {
