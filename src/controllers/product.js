@@ -12,20 +12,23 @@ module.exports.save = (req, res) => {
 
     if(postAction === 'update'){
         res.statusCode = 200;
-        product.update(() => {
+        product.update().then(() => {
             getProducts(req, res);
-        });
+        })
+        .catch(err => {console.log(err)});
     } else {
         res.statusCode = 201;
-        product.add(() => {
+        product.add().then(() => {
             getProducts(req, res);
-        });
+        })
+        .catch(err => {console.log(err)});
     }
 }
 
 const getProducts = (req, res) => {
     const connectedUserLogin = getConnectedUserLogin(req);
-    Product.getProducts(connectedUserLogin, data => {
+    Product.getProducts(connectedUserLogin)
+    .then(([data, _]) => {
         isAdmin(req, isAnAdmin => {
             res.render('product', {
                 products: data,
@@ -35,13 +38,14 @@ const getProducts = (req, res) => {
                 isAdmin: isAnAdmin
             });
         })
-    });
+    })
+    .catch(err => {console.log(err)})
 }
 
 module.exports.delete = (req, res) => {
     const title = req.url.split('title=')[1];
-    Product.delete(title, () => {
+    Product.delete(title).then( () => {
         res.setHeader('Content-Type', 'text/plain');
         res.end('success');
-    });
+    }).catch(err => {console.log(err)});
 }
