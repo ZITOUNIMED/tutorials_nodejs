@@ -18,6 +18,38 @@ module.exports.isUserExisting = (login, callback) => {
     });
 }
 
+module.exports.isAdmin = (req, callback) => {
+    const login = extractCookies(req.get('Cookie')).login;
+
+    getUserByLogin(login, user => {
+        if(user && user.role === 'ADMIN'){
+            callback(true);
+        } else {
+            callback(false);
+        }
+    });
+}
+
+
+module.exports.isAdminConnected = (req, res, next) => {
+    const login = extractCookies(req.get('Cookie')).login;
+
+    getUserByLogin(login, user => {
+        if(user && user.role === 'ADMIN'){
+            next();
+        } else {
+            res.render('error' , { 
+                pageTitle: 'Error Page',
+                page: '',
+                user: user,
+                isAuthenticated: extractCookies(req.get('Cookie')).isAuthenticated === 'true',
+                isAdmin: false,
+            });
+        }
+    });
+    
+}
+
 const extractCookies = cookiesStr => {
     const cookiesObj = {};
     cookiesStr.split(';').map(c => c.trim()).forEach(c => {

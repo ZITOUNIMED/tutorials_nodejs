@@ -1,46 +1,41 @@
 const Product = require('../models/product');
-const { isAuthenticated } = require('../util/auth');
+const { isAuthenticated, getConnectedUserLogin, isAdmin } = require('../util/auth');
 
 module.exports.getProducts = (req, res) => {
-    Product.getProducts(data => {
-        res.render('product', {
-            products: data,
-            pageTitle: 'Products Page',
-            page: 'product',
-            isAuthenticated: isAuthenticated(req),
-        });
-    });
+    getProducts(req, res);
 }
 
 module.exports.save = (req, res) => {
     const {title, price, amount, postAction} = req.body;
-    const product = new Product(title, price, amount);
+    const connectedUserLogin = getConnectedUserLogin(req);
+    const product = new Product(title, price, amount, connectedUserLogin);
 
     if(postAction === 'update'){
         res.statusCode = 200;
         product.update(() => {
-            Product.getProducts(data => {
-                res.render('product', {
-                    products: data,
-                    pageTitle: 'Products Page',
-                    page: 'product',
-                    isAuthenticated: isAuthenticated(req),
-                });
-            });
+            getProducts(req, res);
         });
     } else {
         res.statusCode = 201;
         product.add(() => {
-            Product.getProducts(data => {
-                res.render('product', {
-                    products: data,
-                    pageTitle: 'Products Page',
-                    page: 'product',
-                    isAuthenticated: isAuthenticated(req),
-                });
-            });
+            getProducts(req, res);
         });
     }
+}
+
+const getProducts = (req, res) => {
+    const connectedUserLogin = getConnectedUserLogin(req);
+    Product.getProducts(connectedUserLogin, data => {
+        isAdmin(req, isAnAdmin => {
+            res.render('product', {
+                products: data,
+                pageTitle: 'Products Page',
+                page: 'product',
+                isAuthenticated: isAuthenticated(req),
+                isAdmin: isAnAdmin
+            });
+        })
+    });
 }
 
 module.exports.delete = (req, res) => {

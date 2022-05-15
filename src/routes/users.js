@@ -1,15 +1,16 @@
 const express = require('express');
 
 const usersController = require('../controllers/users');
+const { isAdminConnected } = require('../util/auth'); 
 
 const router = express.Router();
 
 router.get('/profile', usersController.getUserProfilePage);
 
-router.post('/', usersController.save);
+router.post('/', isAdminConnected, usersController.save);
 
-router.delete('/',  usersController.delete);
+router.delete('/', isAdminConnected, usersController.delete);
 
-router.get('/', usersController.getUsersPage);
+router.get('/', isAdminConnected, usersController.getUsersPage);
 
 exports.usersRoutes = router;

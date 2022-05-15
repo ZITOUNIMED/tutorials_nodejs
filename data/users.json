@@ -1,1 +1,1 @@
-[{"firstname":"vvvvvvv","lastname":"vvvvvvvvvv","login":"vvvvvvvvvvvv"},{"firstname":"bbbbbbbb","lastname":"kkkkkkkkk","login":"vvvvvvv"},{"firstname":"Mohamed","lastname":"Zitouni","login":"med"},{"firstname":"Khaled","lastname":"Ben Abdallah","login":"khaledBen"}]
+[{"firstname":"Mohamed","lastname":"Zitouni","login":"med","role":"ADMIN"},{"firstname":"Khaled","lastname":"Ben Abdallah","login":"khaledBen","role":"USER"}]
