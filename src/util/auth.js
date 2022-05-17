@@ -21,13 +21,17 @@ module.exports.isUserExisting = (login, callback) => {
 module.exports.isAdmin = (req, callback) => {
     const login = extractCookies(req.get('Cookie')).login;
 
-    getUserByLogin(login).then(([data, _]) => {
-        if(data[0] && data[0].role === 'ADMIN'){
-            callback(true);
-        } else {
-            callback(false);
-        }
-    }).catch(err => {console.log(err)});
+    if(login){
+        getUserByLogin(login).then(([data, _]) => {
+            if(data[0] && data[0].role === 'ADMIN'){
+                callback(true);
+            } else {
+                callback(false);
+            }
+        }).catch(err => {console.log(err)});
+    } else {
+        callback(false);
+    }
 }
 
 
