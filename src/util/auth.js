@@ -51,10 +51,15 @@ module.exports.isAdminConnected = (req, res, next) => {
 
 const extractCookies = cookiesStr => {
     const cookiesObj = {};
-    cookiesStr.split(';').map(c => c.trim()).forEach(c => {
-        const key = c.split('=')[0];
-        const value = c.split('=')[1];
-        cookiesObj[key]=value;
-    });
+    try {
+        cookiesStr.split(';').map(c => c.trim()).forEach(c => {
+            const key = c.split('=')[0];
+            const value = c.split('=')[1];
+            cookiesObj[key]=value;
+        });
+    } catch(err) {
+        console.log(err)
+    }
+    
     return cookiesObj;
 }
