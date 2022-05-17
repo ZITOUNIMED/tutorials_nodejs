@@ -58,7 +58,7 @@ const extractCookies = cookiesStr => {
             cookiesObj[key]=value;
         });
     } catch(err) {
-        console.log(err)
+        console.log('Cookies not found!')
     }
     
     return cookiesObj;
