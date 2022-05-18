@@ -9,7 +9,7 @@ router.get('/profile', usersController.getUserProfilePage);
 
 router.post('/', isAdminConnected, usersController.save);
 
-router.delete('/', isAdminConnected, usersController.delete);
+router.delete('/:login', isAdminConnected, usersController.delete);
 
 router.get('/', isAdminConnected, usersController.getUsersPage);
 

@@ -3,7 +3,7 @@ function remove(title){
       selectedTitle = title;
       var http = new XMLHttpRequest();
       http.addEventListener("load", removeListener);
-      http.open("DELETE", "/product?title="+title);
+      http.open("DELETE", "/product/"+title);
       http.send()
 }
 
