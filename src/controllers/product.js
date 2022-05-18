@@ -8,17 +8,26 @@ module.exports.getProducts = (req, res) => {
 module.exports.save = (req, res) => {
     const {title, price, amount, postAction} = req.body;
     const connectedUserLogin = getConnectedUserLogin(req);
-    const product = new Product(title, price, amount, connectedUserLogin);
 
     if(postAction === 'update'){
         res.statusCode = 200;
-        product.update().then(() => {
+        Product.findAll({where: {title: title}})
+        .then(products => {
+            if(products && products.length>0){
+                products[0].price = price;
+                products[0].amount = amount;
+                return products[0].save();
+            }
+            return new Promise((_, reject) => {reject('Product does not exist!')});
+        })
+        .then(() => {
             getProducts(req, res);
         })
         .catch(err => {console.log(err)});
     } else {
         res.statusCode = 201;
-        product.add().then(() => {
+        Product.create({title, price, amount, userLogin: connectedUserLogin})
+        .then(() => {
             getProducts(req, res);
         })
         .catch(err => {console.log(err)});
@@ -27,11 +36,11 @@ module.exports.save = (req, res) => {
 
 const getProducts = (req, res) => {
     const connectedUserLogin = getConnectedUserLogin(req);
-    Product.getProducts(connectedUserLogin)
-    .then(([data, _]) => {
+    Product.findAll({where: {userLogin: connectedUserLogin}})
+    .then(products => {
         isAdmin(req, isAnAdmin => {
             res.render('product', {
-                products: data,
+                products: products,
                 pageTitle: 'Products Page',
                 page: 'product',
                 isAuthenticated: isAuthenticated(req),
@@ -43,9 +52,24 @@ const getProducts = (req, res) => {
 }
 
 module.exports.delete = (req, res) => {
-    const title = req.url.split('title=')[1];
-    Product.delete(title).then( () => {
-        res.setHeader('Content-Type', 'text/plain');
-        res.end('success');
-    }).catch(err => {console.log(err)});
+    const title = req.params.title;
+
+    res.setHeader('Content-Type', 'text/plain');
+
+    Product.findAll({where: {title: title}})
+        .then(products => {
+            if(products && products.length>0){
+                return products[0].destroy();
+            }
+            return new Promise((_, reject) => {reject('Product does not exist!')});
+        })
+        .then(() => {
+            res.statusCode = 200;
+            res.end('product deleted with success!')
+        })
+        .catch(err => {
+            console.log(err);
+            res.statusCode = 404;
+            res.end(err.message);
+        });
 }

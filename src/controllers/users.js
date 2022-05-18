@@ -6,40 +6,52 @@ module.exports.getUsersPage = (req, res) => {
 };
 
 module.exports.getUserProfilePage = (req, res) => {
-    User.getUserByLogin(getConnectedUserLogin(req))
-    .then(([data, _]) => {
+    User.findAll({where: {login: getConnectedUserLogin(req)}})
+    .then(users => {
         res.render('user-profile' , { 
             pageTitle: 'User Profile Page',
             page: '',
-            user: data[0],
+            user: users && users[0],
             isAuthenticated: isAuthenticated(req),
-            isAdmin: data[0].role === 'ADMIN',
+            isAdmin: users && users[0] && users[0].role === 'ADMIN',
         });
-    });
+    })
+    .catch(err => {console.log(err)});
 };
 
 module.exports.save = (req, res) => {
     const {firstname, lastname, login, role, postAction} = req.body;
-    const user = new User(firstname, lastname, login, role);
 
     if(postAction === 'update'){
         res.statusCode = 200;
-        user.update().then(() => {
+        User.findAll({where: {login: login}})
+        .then(users => {
+            if(users && users.length>0){
+                users[0].firstname = firstname;
+                users[0].lastname = lastname;
+                users[0].role = role;
+                return users[0].save();
+            }
+            return new Promise((_, reject) => {reject('User does not exist!')});
+        })
+        .then(() => {
             getUsers(req, res);
-        }).catch(err => {console.log(err)});
+        })
+        .catch(err => {console.log(err)});
     } else {
         res.statusCode = 201;
-        user.add().then(() => {
+        User.create({firstname, lastname, login, role}).then(() => {
             getUsers(req, res);
-        }).catch(err => {console.log(err)});
+        })
+        .catch(err => {console.log(err)});
    }
 }
 
 const getUsers = (req, res) => {
-    User.getUsers().then(([data, _]) => {
+    User.findAll().then(users => {
         isAdmin(req, isAnAdmin => {
             res.render('users', {
-                users: data,
+                users: users,
                 pageTitle: 'Users Page',
                 page: 'users',
                 isAuthenticated: isAuthenticated(req),
@@ -50,9 +62,24 @@ const getUsers = (req, res) => {
 }
 
 module.exports.delete = (req, res) => {
-    const login = req.url.split('login=')[1];
-    User.delete(login, () => {
-        res.setHeader('Content-Type', 'text/plain');
-        res.end('success');
-    });
+    const login = req.params.login;
+
+    res.setHeader('Content-Type', 'text/plain');
+
+    User.findAll({where: {login: login}})
+        .then(users => {
+            if(users && users.length>0){
+                return users[0].destroy();
+            }
+            return new Promise((_, reject) => {reject('User does not exist!')});
+        })
+        .then(() => {
+            res.statusCode = 200;
+            res.end('User deleted with success!')
+        })
+        .catch(err => {
+            console.log(err);
+            res.statusCode = 404;
+            res.end(err.message);
+        });
 }
