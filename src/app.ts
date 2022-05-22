@@ -1,15 +1,16 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const path = require('path');
-const sequelize = require('./util/database');
+import express from 'express';
 
-const { welcomeRoutes } = require('./routes/welcome'); 
-const { connectionRoutes } = require('./routes/connection'); 
-const { loginRoutes } = require('./routes/login'); 
-const { productRoutes } = require('./routes/product'); 
-const { usersRoutes } = require('./routes/users'); 
-const User = require('./models/user');
-const Product = require('./models/product');
+import bodyParser from 'body-parser';
+import path from 'path';
+/*import sequelize from './util/database';
+
+import { welcomeRoutes } from './routes/welcome'; 
+import { connectionRoutes } from './routes/connection'; 
+import { loginRoutes } from './routes/login'; 
+import { productRoutes } from './routes/product'; 
+import { usersRoutes } from './routes/users'; 
+import User from './models/user';
+import Product from './models/product';*/
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.set('views', './src/views');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: false}));
 
+/*
 app.use('/connection', connectionRoutes);
 app.use('/login', loginRoutes);
 app.use('/product', productRoutes);
@@ -29,8 +31,8 @@ Product.belongsTo(User);
 
 sequelize.sync()
 .then(() => User.findAll({where: {login: 'med'}}))
-.then(users => {
-    if(!users | users.length<=0){
+.then((users: any) => {
+    if(!users || users.length<=0){
         return User.create({login: 'med', firstname: 'Mohamed', lastname: 'Zitouni', role: 'ADMIN'})
     }
     return new Promise((resolve, _) => {resolve('User found.')});
@@ -38,4 +40,6 @@ sequelize.sync()
 .then(() => {
     app.listen(3000, () => { console.log('Server is running on port 3000 ...')});
 })
-.catch(err => {console.log(err)});
+.catch((err: any) => {console.log(err)});*/
+
+app.listen(3000, () => { console.log('Server is running on port 3000 ...')});
