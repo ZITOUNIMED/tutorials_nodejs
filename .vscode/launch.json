@@ -8,9 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch ...",
-            "url": "http://localhost:8080",
-            "webRoot": "${workspaceFolder}",
-            "restart": "true",
+            "restart": true,
             "runtimeExecutable": "nodemon",
             "console": "integratedTerminal"
         }
