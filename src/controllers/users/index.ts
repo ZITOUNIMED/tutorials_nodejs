@@ -1,13 +1,14 @@
-const { isAuthenticated, getConnectedUserLogin, isAdmin } = require('../util/auth');
-const User = require('../models/user');
+import { isAuthenticated, getConnectedUserLogin, isAdmin } from '../../util/auth';
+import User from '../../models/user';
+import { Request, Response } from 'express';
 
-module.exports.getUsersPage = (req, res) => {
-    getUsers(req, res);
-};
+export function getUsersPage(req: Request, res: Response): void {
+    fetchUsers(req, res);
+}
 
-module.exports.getUserProfilePage = (req, res) => {
+export function getUserProfilePage(req: Request, res: Response): void {
     User.findAll({where: {login: getConnectedUserLogin(req)}})
-    .then(users => {
+    .then((users: any[]) => {
         res.render('user-profile' , { 
             pageTitle: 'User Profile Page',
             page: '',
@@ -17,15 +18,15 @@ module.exports.getUserProfilePage = (req, res) => {
         });
     })
     .catch(err => {console.log(err)});
-};
+}
 
-module.exports.save = (req, res) => {
+export function saveUser(req: Request, res: Response): void {
     const {firstname, lastname, login, role, postAction} = req.body;
 
     if(postAction === 'update'){
         res.statusCode = 200;
         User.findAll({where: {login: login}})
-        .then(users => {
+        .then((users: any[]) => {
             if(users && users.length>0){
                 users[0].firstname = firstname;
                 users[0].lastname = lastname;
@@ -35,33 +36,19 @@ module.exports.save = (req, res) => {
             return new Promise((_, reject) => {reject('User does not exist!')});
         })
         .then(() => {
-            getUsers(req, res);
+            fetchUsers(req, res);
         })
         .catch(err => {console.log(err)});
     } else {
         res.statusCode = 201;
         User.create({firstname, lastname, login, role}).then(() => {
-            getUsers(req, res);
+            fetchUsers(req, res);
         })
         .catch(err => {console.log(err)});
    }
 }
 
-const getUsers = (req, res) => {
-    User.findAll().then(users => {
-        isAdmin(req, isAnAdmin => {
-            res.render('users', {
-                users: users,
-                pageTitle: 'Users Page',
-                page: 'users',
-                isAuthenticated: isAuthenticated(req),
-                isAdmin: isAnAdmin,
-            });
-        });
-    }).catch(err => {console.log(err)});
-}
-
-module.exports.delete = (req, res) => {
+export function deleteUser(req: Request, res: Response): void {
     const login = req.params.login;
 
     res.setHeader('Content-Type', 'text/plain');
@@ -82,4 +69,18 @@ module.exports.delete = (req, res) => {
             res.statusCode = 404;
             res.end(err.message);
         });
+}
+
+function fetchUsers(req: Request, res: Response): void {
+    User.findAll().then(users => {
+        isAdmin(req, isAnAdmin => {
+            res.render('users', {
+                users: users,
+                pageTitle: 'Users Page',
+                page: 'users',
+                isAuthenticated: isAuthenticated(req),
+                isAdmin: isAnAdmin,
+            });
+        });
+    }).catch(err => {console.log(err)});
 }

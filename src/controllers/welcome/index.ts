@@ -1,6 +1,7 @@
-const { isAuthenticated, isAdmin } = require('../util/auth');
+import { Request, Response } from 'express';
+import { isAuthenticated, isAdmin } from '../../util/auth';
 
-module.exports.getWelcomePage = (req, res, next) => {
+export function getWelcomePage(req: Request, res: Response): void {
     isAdmin(req, isAnAdmin => {
         res.render('welcome' , { 
             pageTitle: 'Welcome Page',
@@ -9,4 +10,4 @@ module.exports.getWelcomePage = (req, res, next) => {
             isAdmin: isAnAdmin,
         });
     })
-};
+}

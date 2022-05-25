@@ -1,5 +1,5 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../util/database');
+import { DataTypes } from 'sequelize';
+import sequelize from '../util/database';
 
 const User = sequelize.define('user', {
     login: {
@@ -12,4 +12,4 @@ const User = sequelize.define('user', {
     role: DataTypes.STRING,
 });
 
-module.exports = User;
+export default User;
