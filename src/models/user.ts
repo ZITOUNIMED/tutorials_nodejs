@@ -19,7 +19,7 @@ class User extends Model<UserAttributes> implements UserAttributes{
   }
 }
 
-module.exports.init = (sequelize: any) => {
+export function init(sequelize: any) {
   
   User.init({
     firstName: DataTypes.STRING,

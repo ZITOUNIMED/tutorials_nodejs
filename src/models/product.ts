@@ -18,7 +18,7 @@ class Product extends Model<ProductAttributes> implements ProductAttributes{
   }
 }
 
-module.exports.init = (sequelize: any) => {
+export function init(sequelize: any) {
   Product.init({
     title: DataTypes.STRING,
     price: DataTypes.DOUBLE,
