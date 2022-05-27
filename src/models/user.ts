@@ -1,15 +1,36 @@
-import { DataTypes } from 'sequelize';
-import sequelize from '../util/database';
+import { Model, DataTypes } from 'sequelize';
 
-const User = sequelize.define('user', {
-    login: {
-        type: DataTypes.STRING,
-        primaryKey: true,
-        allowNull: false
-    },
-    firstname: DataTypes.STRING,
-    lastname: DataTypes.STRING,
-    role: DataTypes.STRING,
-});
+export interface UserAttributes {
+  id?: number;
+  firstName: string;
+  lastName: string;
+  login: string;
+  role: string;
+}
+
+class User extends Model<UserAttributes> implements UserAttributes{
+  firstName!: string;
+  lastName!: string;
+  login!: string;
+  role!: string;
+
+  static associate(models: any) {
+    // define association here
+  }
+}
+
+module.exports.init = (sequelize: any) => {
+  
+  User.init({
+    firstName: DataTypes.STRING,
+    lastName: DataTypes.STRING,
+    login: DataTypes.STRING,
+    role: DataTypes.STRING
+  }, {
+    sequelize,
+    modelName: 'User',
+  });
+  return User;
+};
 
 export default User;

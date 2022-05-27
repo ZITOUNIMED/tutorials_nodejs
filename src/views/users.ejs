@@ -15,8 +15,8 @@
             <tbody>
                 <% for(let user of users ) { %>
                     <tr>
-                        <td><%= user.firstname %></td> 
-                        <td><%= user.lastname %></td> 
+                        <td><%= user.firstName %></td> 
+                        <td><%= user.lastName %></td> 
                         <td><%= user.login %></td>
                         <td><%= user.role %></td>
                         <td>
@@ -42,11 +42,11 @@
         <form method="POST" action="users">
             <div class="mb-3">
                 <label for="firstname" class="form-label">First Name</label>
-                <input type="text" class="form-control" id="firstname" name="firstname">
+                <input type="text" class="form-control" id="firstname" name="firstName">
             </div>
             <div class="mb-3">
                 <label for="lastname" class="form-label">Last Name</label>
-                <input type="text" class="form-control" id="lastname" name="lastname">
+                <input type="text" class="form-control" id="lastname" name="lastName">
             </div>
             <div class="mb-3">
                 <label for="login" class="form-label">Login</label>

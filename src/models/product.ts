@@ -1,14 +1,33 @@
-import { DataTypes } from 'sequelize';
-import sequelize from '../util/database';
+import { Model, DataTypes } from 'sequelize';
 
-const Product = sequelize.define('product', {
-    title: {
-        type: DataTypes.STRING,
-        primaryKey: true,
-        allowNull: false
-    },
+export interface ProductAttributes {
+  id?: number;
+  title: string;
+  price: number;
+  amount: number;
+  UserId?: number;
+}
+
+class Product extends Model<ProductAttributes> implements ProductAttributes{
+  title!: string;
+  price!: number;
+  amount!: number;
+
+  static associate(models: any) {
+    Product.belongsTo(models.User);
+  }
+}
+
+module.exports.init = (sequelize: any) => {
+  Product.init({
+    title: DataTypes.STRING,
     price: DataTypes.DOUBLE,
     amount: DataTypes.INTEGER,
-});
+  }, {
+    sequelize,
+    modelName: 'Product',
+  });
+  return Product;
+};
 
 export default Product;

@@ -1,5 +1,7 @@
-import { isAuthenticated, getConnectedUserLogin, isAdmin } from '../../util/auth';
+import { isAuthenticated, getConnectedUserId, isAdmin } from '../../util/auth';
+
 import User from '../../models/user';
+
 import { Request, Response } from 'express';
 
 export function getUsersPage(req: Request, res: Response): void {
@@ -7,31 +9,31 @@ export function getUsersPage(req: Request, res: Response): void {
 }
 
 export function getUserProfilePage(req: Request, res: Response): void {
-    User.findAll({where: {login: getConnectedUserLogin(req)}})
-    .then((users: any[]) => {
+    User.findOne({where: {id: getConnectedUserId(req)}})
+    .then((user: any) => {
         res.render('user-profile' , { 
             pageTitle: 'User Profile Page',
             page: '',
-            user: users && users[0],
+            user: user,
             isAuthenticated: isAuthenticated(req),
-            isAdmin: users && users[0] && users[0].role === 'ADMIN',
+            isAdmin: user && user.role === 'ADMIN',
         });
     })
     .catch(err => {console.log(err)});
 }
 
 export function saveUser(req: Request, res: Response): void {
-    const {firstname, lastname, login, role, postAction} = req.body;
+    const {firstName, lastName, login, role, postAction} = req.body;
 
     if(postAction === 'update'){
         res.statusCode = 200;
-        User.findAll({where: {login: login}})
-        .then((users: any[]) => {
-            if(users && users.length>0){
-                users[0].firstname = firstname;
-                users[0].lastname = lastname;
-                users[0].role = role;
-                return users[0].save();
+        User.findOne({where: {login: login}})
+        .then((user: any) => {
+            if(user){
+                user.firstName = firstName;
+                user.lastName = lastName;
+                user.role = role;
+                return user.save();
             }
             return new Promise((_, reject) => {reject('User does not exist!')});
         })
@@ -41,7 +43,7 @@ export function saveUser(req: Request, res: Response): void {
         .catch(err => {console.log(err)});
     } else {
         res.statusCode = 201;
-        User.create({firstname, lastname, login, role}).then(() => {
+        User.create({firstName, lastName, login, role}).then(() => {
             fetchUsers(req, res);
         })
         .catch(err => {console.log(err)});
@@ -53,10 +55,10 @@ export function deleteUser(req: Request, res: Response): void {
 
     res.setHeader('Content-Type', 'text/plain');
 
-    User.findAll({where: {login: login}})
-        .then(users => {
-            if(users && users.length>0){
-                return users[0].destroy();
+    User.findOne({where: {login: login}})
+        .then((user: any) => {
+            if(user){
+                return user.destroy();
             }
             return new Promise((_, reject) => {reject('User does not exist!')});
         })
