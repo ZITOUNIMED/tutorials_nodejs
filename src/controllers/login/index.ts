@@ -4,14 +4,14 @@ import { isUserExisting } from '../../util/auth';
 export function signIn(req: Request, res: Response): void {
     const {login, password} = req.body;
 
-    isUserExisting(login, isExisting => {
+    isUserExisting(login, (isExisting: boolean, userId?: number) => {
         if(isExisting){
             res.cookie('isAuthenticated', true);
-            res.cookie('login', login);
+            res.cookie('userId', userId);
             res.redirect(302, '/product');
         } else {
             res.cookie('isAuthenticated', false);
-            res.cookie('login', '');
+            res.cookie('userId', '');
             res.redirect(302, '/connection');
         }
         res.end();

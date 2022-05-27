@@ -1,18 +1,18 @@
 import { NextFunction, Request, Response } from 'express';
-import { getUserByLogin } from '../services/users';
+import { getUserByLogin, getUserById } from '../services/users';
 
 export function isAuthenticated(req: Request): boolean {
     return extractCookies(req.get('Cookie') as string).isAuthenticated;
 }
 
-export function getConnectedUserLogin(req: Request): string {
-    return extractCookies(req.get('Cookie') as string).login;
+export function getConnectedUserId(req: Request): number {
+    return extractCookies(req.get('Cookie') as string).userId;
 }
 
-export function isUserExisting(login: string, callback: (isOk: boolean) => void): void {
-    getUserByLogin(login).then(users => {
-        if(users && users.length>0){
-            callback(true);
+export function isUserExisting(login: string, callback: (isOk: boolean, userId?: number) => void): void {
+    getUserByLogin(login).then(user => {
+        if(user){
+            callback(true, user.id);
         } else {
             callback(false);
         }
@@ -20,11 +20,11 @@ export function isUserExisting(login: string, callback: (isOk: boolean) => void)
 }
 
 export function isAdmin(req: Request, callback: (isOk: boolean) => void): void {
-    const login: string = extractCookies(req.get('Cookie') as string).login;
+    const userId = extractCookies(req.get('Cookie') as string).userId;
 
-    if(login){
-        getUserByLogin(login).then(data => {
-            if(data && data[0] && data[0].role === 'ADMIN'){
+    if(userId){
+        getUserById(userId).then(user => {
+            if(user && user.role === 'ADMIN'){
                 callback(true);
             } else {
                 callback(false);
@@ -37,16 +37,16 @@ export function isAdmin(req: Request, callback: (isOk: boolean) => void): void {
 
 
 export function isAdminConnected(req: Request, res: Response, next: NextFunction): void {
-    const login = extractCookies(req.get('Cookie') as string).login;
+    const login = extractCookies(req.get('Cookie') as string).userId;
 
-    getUserByLogin(login).then(data => {
-        if(data && data[0] && data[0].role === 'ADMIN'){
+    getUserById(login).then(data => {
+        if(data && data.role === 'ADMIN'){
             next();
         } else {
             res.render('error' , { 
                 pageTitle: 'Error Page',
                 page: '',
-                user: data && data[0],
+                user: data,
                 isAuthenticated: extractCookies(req.get('Cookie') as string).isAuthenticated,
                 isAdmin: false,
             });
@@ -54,16 +54,16 @@ export function isAdminConnected(req: Request, res: Response, next: NextFunction
     }).catch(err => {console.log(err)});
 }
 
-function extractCookies(cookiesStr: string):  {isAuthenticated: boolean, login: string} {
-    const cookiesObj = {isAuthenticated: false, login: ''};
+function extractCookies(cookiesStr: string):  {isAuthenticated: boolean, userId: number} {
+    const cookiesObj = {isAuthenticated: false, userId: 0};
     try {
         cookiesStr.split(';').map(c => c.trim()).forEach(c => {
             const key: string = c.split('=')[0];
             const value: string = c.split('=')[1];
             if(key === 'isAuthenticated') {
                 cookiesObj.isAuthenticated = (value === 'true')
-            } else if(key === 'login'){
-                cookiesObj.login = value;
+            } else if(key === 'userId'){
+                cookiesObj.userId = Number(value);
             }
         });
     } catch(err) {
