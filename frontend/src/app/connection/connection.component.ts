@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ConnectionService } from './connection.service';
+import { AuthService } from '../services/auth.service';
+import { ConnectionService } from '../services/connection.service';
 
 @Component({
   selector: 'app-connection',
@@ -15,7 +16,7 @@ export class ConnectionComponent implements OnInit {
     password: new FormControl('', Validators.required)
   });
 
-  constructor(private connectionService: ConnectionService, private router: Router) { }
+  constructor(private connectionService: ConnectionService, private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
   }
@@ -23,9 +24,16 @@ export class ConnectionComponent implements OnInit {
   submit(){
     const value = this.connectionForm.value;
     this.connectionService.login(value)
-    .subscribe(res => {
-      if(res.success){
-        this.router.navigate(['/products'])
+    .subscribe({
+      next: res => {
+        if(res.isAuthenticated){
+          this.authService.setAuthConf(res);
+          this.router.navigate(['/products'])
+        }
+      },
+      error: err => {
+        this.authService.setAuthConf({userId: 0, isAuthenticated: false});
+        console.log(err);
       }
     });
   }

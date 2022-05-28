@@ -7,10 +7,10 @@
       </ul>
 
       <div class="col-md-3 text-end">
-          <button type="button" class="btn btn-outline-primary me-2" onclick="userProfile()"><i class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i> Profile</button>
-          <button type="button" class="btn btn-outline-danger me-2" (click)="logout()">Logout <i class="fa fa-sign-out fa-lg" aria-hidden="true"></i></button>
-          <button type="button" class="btn btn-outline-primary me-2" (click)="login()"><i class="fa fa-sign-in fa-lg" aria-hidden="true"></i> Login</button>
-          <button type="button" class="btn btn-outline-success"><i class="fa fa-user-plus fa-lg" aria-hidden="true"></i> Sign-up</button>
+          <button type="button" class="btn btn-outline-primary me-2" *ngIf="isAuthenticated" (click)="userProfile()"><i class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i> Profile</button>
+          <button type="button" class="btn btn-outline-danger me-2" *ngIf="isAuthenticated" (click)="logout()">Logout <i class="fa fa-sign-out fa-lg" aria-hidden="true"></i></button>
+          <button type="button" class="btn btn-outline-primary me-2" *ngIf="!isAuthenticated" (click)="login()"><i class="fa fa-sign-in fa-lg" aria-hidden="true"></i> Login</button>
+          <button type="button" class="btn btn-outline-success" *ngIf="!isAuthenticated"><i class="fa fa-user-plus fa-lg" aria-hidden="true"></i> Sign-up</button>
       
       </div>
   </header>
