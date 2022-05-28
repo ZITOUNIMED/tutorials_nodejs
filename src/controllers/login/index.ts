@@ -8,12 +8,14 @@ export function signIn(req: Request, res: Response): void {
         if(isExisting){
             res.cookie('isAuthenticated', true);
             res.cookie('userId', userId);
-            res.redirect(302, '/product');
+            res.json({success: true});
+            // res.redirect(302, '/product');
         } else {
             res.cookie('isAuthenticated', false);
             res.cookie('userId', '');
-            res.redirect(302, '/connection');
+
+            res.status(302).json({success: false});
+            // res.redirect(302, '/connection');
         }
-        res.end();
     })
 }

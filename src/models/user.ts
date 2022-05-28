@@ -31,6 +31,6 @@ export function init(sequelize: any) {
     modelName: 'User',
   });
   return User;
-};
+}
 
 export default User;
