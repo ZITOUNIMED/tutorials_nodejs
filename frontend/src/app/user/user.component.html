@@ -1,1 +1,41 @@
-<p>user works!</p>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">User</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Users</h5>
+        <table class="table table-striped" id="usersTableId">
+            <thead>
+                <tr>
+                    <th>First Name</th> <th>Last Name</th> <th>Login</th> <th>Role</th> 
+                    <th>
+                        <button class="btn btn-outline-success" (click)="openModal()"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></button>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of users">
+                    <td>{{ user.firstName }}</td> 
+                    <td>{{ user.lastName }}</td>  
+                    <td>{{ user.login }}</td> 
+                    <td>{{ user.role }}</td> 
+                    <td>
+                        <button class="btn btn-danger btn-sm" (click)="remove(user.login)">Remove</button>
+                        <button class="btn btn-info btn-sm" (click)="fillForm(user)">Update</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

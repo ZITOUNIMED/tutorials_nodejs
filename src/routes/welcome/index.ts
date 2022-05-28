@@ -1,9 +1,11 @@
 import express from 'express';
 
-import { getWelcomePage } from '../../controllers/welcome';
+import { getWelcome, getWelcomeData } from '../../controllers/welcome';
 
 const router = express.Router();
 
-router.get('/', getWelcomePage);
+router.get('/', getWelcome);
+
+router.get('/welcome/data', getWelcomeData);
 
 export default router;

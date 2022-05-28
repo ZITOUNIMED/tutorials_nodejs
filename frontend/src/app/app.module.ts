@@ -13,6 +13,8 @@ import { UserComponent } from './user/user.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ApphttpInterceptor } from './http-interceptor';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { UserModalComponent } from './user/user-modal/user-modal.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,8 @@ import { ApphttpInterceptor } from './http-interceptor';
     HomeComponent,
     ProductComponent,
     UserComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    UserModalComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +33,8 @@ import { ApphttpInterceptor } from './http-interceptor';
     HttpClientModule,
     FormsModule,
     AppRoutingModule,
-    BrowserModule
+    BrowserModule,
+    NgbModule
   ],
   providers: [
     {

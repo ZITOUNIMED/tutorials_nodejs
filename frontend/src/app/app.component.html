@@ -1,9 +1,9 @@
 <div class="container">
-  <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+  <header *ngIf="!isConnectionPage" class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-          <li><a href="/" class="nav-link px-2 link-dark">Home</a></li>
-          <li><a href="/products" class="nav-link px-2 link-dark">Products</a></li>
-          <li><a href="/users" class="nav-link px-2 link-secondary">Users</a></li>
+          <li><a routerLink="/home" routerLinkActive="link-dark" class="nav-link px-2 link-secondary">Home</a></li>
+          <li><a routerLink="/products" routerLinkActive="link-dark" class="nav-link px-2 link-secondary">Products</a></li>
+          <li><a routerLink="users" routerLinkActive="link-dark" class="nav-link px-2 link-secondary" *ngIf="isAdmin">Users</a></li>
       </ul>
 
       <div class="col-md-3 text-end">
@@ -11,7 +11,6 @@
           <button type="button" class="btn btn-outline-danger me-2" *ngIf="isAuthenticated" (click)="logout()">Logout <i class="fa fa-sign-out fa-lg" aria-hidden="true"></i></button>
           <button type="button" class="btn btn-outline-primary me-2" *ngIf="!isAuthenticated" (click)="login()"><i class="fa fa-sign-in fa-lg" aria-hidden="true"></i> Login</button>
           <button type="button" class="btn btn-outline-success" *ngIf="!isAuthenticated"><i class="fa fa-user-plus fa-lg" aria-hidden="true"></i> Sign-up</button>
-      
       </div>
   </header>
   <div>

@@ -2,11 +2,11 @@ import { NextFunction, Request, Response } from 'express';
 import { getUserByLogin, getUserById } from '../services/users';
 
 export function isAuthenticated(req: Request): boolean {
-    return extractCookies(req.get('Cookie') as string).isAuthenticated;
+    return extractCookies(req).isAuthenticated;
 }
 
 export function getConnectedUserId(req: Request): number {
-    return extractCookies(req.get('Cookie') as string).userId;
+    return extractCookies(req).userId;
 }
 
 export function isUserExisting(login: string, callback: (isOk: boolean, userId?: number) => void): void {
@@ -19,11 +19,11 @@ export function isUserExisting(login: string, callback: (isOk: boolean, userId?:
     });
 }
 
-export function isAdmin(req: Request, callback: (isOk: boolean) => void): void {
-    const userId = extractCookies(req.get('Cookie') as string).userId;
+export function isAdmin(req: Request, callback: (isOk: boolean) => void, userId?: number): void {
+    const id = userId || extractCookies(req).userId;
 
-    if(userId){
-        getUserById(userId).then(user => {
+    if(id){
+        getUserById(id).then(user => {
             if(user && user.role === 'ADMIN'){
                 callback(true);
             } else {
@@ -37,7 +37,7 @@ export function isAdmin(req: Request, callback: (isOk: boolean) => void): void {
 
 
 export function isAdminConnected(req: Request, res: Response, next: NextFunction): void {
-    const login = extractCookies(req.get('Cookie') as string).userId;
+    const login = extractCookies(req).userId;
 
     getUserById(login).then(data => {
         if(data && data.role === 'ADMIN'){
@@ -47,16 +47,22 @@ export function isAdminConnected(req: Request, res: Response, next: NextFunction
                 pageTitle: 'Error Page',
                 page: '',
                 user: data,
-                isAuthenticated: extractCookies(req.get('Cookie') as string).isAuthenticated,
+                isAuthenticated: extractCookies(req).isAuthenticated,
                 isAdmin: false,
             });
         }
     }).catch(err => {console.log(err)});
 }
 
-function extractCookies(cookiesStr: string):  {isAuthenticated: boolean, userId: number} {
+function extractCookies(req: Request):  {isAuthenticated: boolean, userId: number} {
     const cookiesObj = {isAuthenticated: false, userId: 0};
     try {
+        let cookiesStr = req.get('Cookie') as string;
+        if(!cookiesStr){
+            const cookiesList = req.get('Set-Cookie');
+            cookiesStr = cookiesList && cookiesList.length>0 ? (cookiesList[0] as string) : '';
+        }
+
         cookiesStr.split(';').map(c => c.trim()).forEach(c => {
             const key: string = c.split('=')[0];
             const value: string = c.split('=')[1];
