@@ -1,0 +1,47 @@
+<div class="modal-header">
+    <h4 class="modal-title">User</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="userForm">
+        <div class="mb-3">
+            <label for="firstname" class="form-label">First Name</label>
+            <input type="text" class="form-control" id="firstname" [ngClass]="{'is-invalid': firstNameCtrl.errors && firstNameCtrl.dirty, 'is-valid': !firstNameCtrl.errors && firstNameCtrl.dirty}" name="firstName" formControlName="firstName">
+        </div>
+        <div class="mb-3 text-danger" *ngIf="firstNameCtrl.errors && firstNameCtrl.dirty">
+            <span *ngIf="firstNameCtrl.errors['required']">First Name is required!</span>
+            <span *ngIf="firstNameCtrl.errors['minlength']">Min length of this field is 3!</span>
+            <span *ngIf="firstNameCtrl.errors['maxlength']">Max length of this field is 25!</span>
+        </div>
+        <div class="mb-3">
+            <label for="lastname" class="form-label">Last Name</label>
+            <input type="text" class="form-control" id="lastname" name="lastName"  [ngClass]="{'is-invalid': lastNameCtrl.errors && lastNameCtrl.dirty, 'is-valid': !lastNameCtrl.errors && lastNameCtrl.dirty}" formControlName="lastName">
+        </div>
+        <div class="mb-3 text-danger" *ngIf="lastNameCtrl.errors && lastNameCtrl.dirty">
+            <span *ngIf="lastNameCtrl.errors['required']">Last Name is required!</span>
+            <span *ngIf="lastNameCtrl.errors['minlength']">Min length of this field is 3!</span>
+            <span *ngIf="lastNameCtrl.errors['maxlength']">Max length of this field is 25!</span>
+        </div>
+        <div class="mb-3">
+            <label for="login" class="form-label">Login</label>
+            <input type="text" class="form-control" id="login" name="login" [ngClass]="{'is-invalid': loginCtrl.errors && loginCtrl.dirty, 'is-valid': !loginCtrl.errors && loginCtrl.dirty}" formControlName="login">
+        </div>
+        <div class="mb-3 text-danger" *ngIf="loginCtrl.errors && loginCtrl.dirty">
+            <span *ngIf="loginCtrl.errors['required']">Login is required!</span>
+            <span *ngIf="loginCtrl.errors['minlength']">Min length of this field is 3!</span>
+            <span *ngIf="loginCtrl.errors['maxlength']">Max length of this field is 15!</span>
+        </div>
+        <div class="mb-3">
+            <label for="role" class="form-label">Role</label>
+            <select class="form-control" id="role" name="role" formControlName="role">
+                <option value="ADMIN">Admin</option>
+                <option value="USER">User</option>
+            </select>
+        </div>
+        <input name="postAction" type="text" value="create" id="postActionIdUsers" hidden/>
+        <div class="mb-3" style="float: right">
+            <button type="button" class="btn btn-secondary" style="margin-right: 5px;" (click)="close()">Close</button>
+            <button type="button" (click)="submit()" class="btn btn-success">{{ user? 'Update' : 'Add' }}</button>
+        </div>
+    </form>
+</div>

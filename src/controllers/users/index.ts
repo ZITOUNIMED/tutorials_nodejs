@@ -34,7 +34,7 @@ export function createUser(req: Request, res: Response): void {
     })
     .catch(err => {
         console.log(err)
-        res.status(500).json(err)
+        res.status(500).json(err.errors)
     });
 }
 
@@ -55,7 +55,7 @@ export function updateUser(req: Request, res: Response): void {
         })
         .catch(err => {
             console.log(err)
-            res.status(500).json(err)
+            res.status(500).json(err.errors)
         });
 }
 

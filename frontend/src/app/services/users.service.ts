@@ -15,5 +15,21 @@ export class UsersService {
   getUserProfile(): Observable<UserModel> {
     return this.http.get<UserModel>(this.url + '/profile');
   }
+
+  remove(login: string): Observable<any> {
+    return this.http.delete(this.url + `/${login}`);
+  }
+
+  create(product: UserModel): Observable<any> {
+    return this.http.post(this.url, product);
+  }
+
+  update(user: UserModel): Observable<any> {
+    return this.http.put(this.url, user);
+  }
+
+  getUsers(): Observable<UserModel[]> {
+    return this.http.get<UserModel[]>(this.url);
+  }
 }
 
