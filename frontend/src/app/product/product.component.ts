@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ProductModel } from '../models/product.model';
 import { ProductsService } from '../services/products.service';
 
@@ -8,6 +9,17 @@ import { ProductsService } from '../services/products.service';
   styleUrls: ['./product.component.css']
 })
 export class ProductComponent implements OnInit {
+  titleCtrl = new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]);
+  priceCtrl = new FormControl('', [Validators.required]);
+  amountCtrl = new FormControl('', [Validators.required]);
+
+  productTitle: any;
+
+  productForm: FormGroup = new FormGroup({
+    title: this.titleCtrl,
+    price: this.priceCtrl,
+    amount: this.amountCtrl,
+  });
 
   products: any[] = [];
   constructor(private productsService: ProductsService) { }
@@ -23,11 +35,39 @@ export class ProductComponent implements OnInit {
     })
   }
 
-  update(product: ProductModel){
+  fillForm(product: ProductModel){
+    this.titleCtrl.disable();
+    this.productTitle = product.title;
+    this.titleCtrl.setValue(product.title);
+    this.priceCtrl.setValue(product.price);
+    this.amountCtrl.setValue(product.amount);
+  }
+
+  private create(product: ProductModel){
+    this.productsService.create(product)
+    .subscribe(products => {
+      this.products = products;
+      this.productForm.reset();
+    })
+  }
+
+  private update(product: ProductModel){
     this.productsService.update(product)
     .subscribe(products => {
       this.products = products;
+      this.productForm.reset();
+      this.productTitle = null;
+      this.titleCtrl.enable();
     })
+  }
+
+  submit(){
+    const value = this.productForm.value;
+    if(this.productTitle){
+      this.update({title: this.productTitle, ...value});
+    } else {
+      this.create(value);
+    }
   }
 
   private getProducts(){

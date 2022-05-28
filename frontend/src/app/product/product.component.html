@@ -2,22 +2,33 @@
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">Product</h5>
-            <form method="POST" action="product">
+            <form [formGroup]="productForm" (submit)="submit()">
                 <div class="mb-3">
                     <label for="title" class="form-label">title</label>
-                    <input type="text" class="form-control" id="title" name="title">
+                    <input type="text" class="form-control" [ngClass]="{'is-invalid': titleCtrl.errors && titleCtrl.dirty, 'is-valid': !titleCtrl.errors && titleCtrl.dirty}" id="title" name="title" formControlName="title">
+                </div>
+                <div class="mb-3 text-danger" *ngIf="titleCtrl.errors && titleCtrl.dirty">
+                    <span *ngIf="titleCtrl.errors['required']">Title is required!</span>
+                    <span *ngIf="titleCtrl.errors['minlength']">The min length is 3!</span>
+                    <span *ngIf="titleCtrl.errors['maxlength']">The max length is 25!</span>
                 </div>
                 <div class="mb-3">
                     <label for="price" class="form-label">Price</label>
-                    <input type="number" class="form-control" id="price" name="price">
+                    <input type="number" class="form-control" [ngClass]="{'is-invalid': priceCtrl.errors && priceCtrl.dirty, 'is-valid': !priceCtrl.errors && priceCtrl.dirty}" id="price" name="price" formControlName="price">
+                </div>
+                <div class="mb-3 text-danger" *ngIf="priceCtrl.errors && priceCtrl.dirty">
+                    <span *ngIf="priceCtrl.errors['required']">Price is required!</span>
                 </div>
                 <div class="mb-3">
                     <label for="amount" class="form-label">Amount</label>
-                    <input type="number" class="form-control" id="amount" name="amount">
+                    <input type="number" class="form-control" [ngClass]="{'is-invalid': amountCtrl.errors && amountCtrl.dirty, 'is-valid': !amountCtrl.errors && amountCtrl.dirty}" id="amount" name="amount" formControlName="amount">
+                </div>
+                <div class="mb-3 text-danger" *ngIf="amountCtrl.errors && amountCtrl.dirty">
+                    <span *ngIf="amountCtrl.errors['required']">Amount is required!</span>
                 </div>
                 <input name="postAction" type="text" value="create" id="postActionId" hidden/>
                 <div class="mb-3" style="float: right">
-                    <button type="submit" class="btn btn-success">Save</button>
+                    <button type="submit" class="btn btn-success">{{productTitle ? 'Update' : 'Add'}}</button>
                 </div>
                 
             </form>
@@ -39,7 +50,7 @@
                         <td>{{product.amount}}</td> 
                         <td>
                             <button class="btn btn-danger btn-sm" (click)="remove(product.title)">Remove</button>
-                            <button class="btn btn-info btn-sm" (click)="update(product)">Update</button>
+                            <button class="btn btn-info btn-sm" (click)="fillForm(product)">Update</button>
                         </td>
                     </tr>
                 </tbody>

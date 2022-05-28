@@ -16,6 +16,10 @@ export class ProductsService {
     return this.http.delete(this.url + `/${title}`);
   }
 
+  create(product: ProductModel): Observable<any> {
+    return this.http.post(this.url, product);
+  }
+
   update(product: ProductModel): Observable<any> {
     return this.http.put(this.url, product);
   }
