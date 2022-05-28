@@ -2,16 +2,13 @@ import { Request, Response } from 'express';
 
 import Product, { ProductAttributes } from '../../models/product';
 
-import { isAuthenticated, getConnectedUserId, isAdmin } from '../../util/auth';
-
 export function getProducts(req: Request, res: Response): void {
     fetchProducts(req, res);
 }
 
-
-export function createProduct(req: Request, res: Response): void {
+export function createProduct(req: any, res: Response): void {
     const {title, price, amount} = req.body;
-    const connectedUserId = getConnectedUserId(req);
+    const connectedUserId = req.userId;
 
     const newProduct: ProductAttributes = {
         title: title, 
@@ -69,21 +66,12 @@ export function deleteProduct(req: Request, res: Response): void {
         });
 }
 
-function fetchProducts(req: Request, res: Response): void {
-    const connectedUserId = getConnectedUserId(req);
+function fetchProducts(req: any, res: Response): void {
+    const connectedUserId = req.userId;
     
     Product.findAll({where: {UserId: connectedUserId}})
     .then(products => {
-        isAdmin(req, isAnAdmin => {
-            res.json(products)
-            /*res.render('product', {
-                products: products,
-                pageTitle: 'Products Page',
-                page: 'product',
-                isAuthenticated: isAuthenticated(req),
-                isAdmin: isAnAdmin
-            });*/
-        })
+        res.json(products);
     })
     .catch(err => {
         console.log(err)

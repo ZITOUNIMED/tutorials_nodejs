@@ -32,7 +32,7 @@ export class ConnectionComponent implements OnInit {
         }
       },
       error: err => {
-        this.authService.setAuthConf({userId: 0, isAuthenticated: false, isAdmin: false});
+        this.authService.setAuthConf({isAuthenticated: false, isAdmin: false, token: ''});
         console.log(err);
       }
     });

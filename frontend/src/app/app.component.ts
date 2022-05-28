@@ -20,12 +20,12 @@ export class AppComponent implements OnInit {
   }
 
   logout(){
-    this.authService.setAuthConf({userId: 0, isAuthenticated: false, isAdmin: false});
+    this.authService.setAuthConf({isAuthenticated: false, isAdmin: false, token: ''});
     this.router.navigate(['/connection']);
   }
 
   login(){
-    this.authService.setAuthConf({userId: 0, isAuthenticated: false, isAdmin: false});
+    this.authService.setAuthConf({isAuthenticated: false, isAdmin: false, token: ''});
     this.router.navigate(['/connection']);
   }
 
