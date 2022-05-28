@@ -9,9 +9,9 @@ export class AuthService {
   constructor() { }
 
   setAuthConf(authConf: AuthConf){
-    sessionStorage.setItem('userId', authConf.userId + '');
     sessionStorage.setItem('isAuthenticated', authConf.isAuthenticated+ '');
     sessionStorage.setItem('isAdmin', authConf.isAdmin + '');
+    sessionStorage.setItem('token', authConf.token);
   }
 
   isAuthenticated(): boolean {

@@ -5,7 +5,7 @@ import { Observable } from "rxjs";
 @Injectable()
 export class ApphttpInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const userId = sessionStorage.getItem('userId');
-        return next.handle(req.clone({setHeaders:{'Set-Cookie': `userId=${userId}`} }));
+        const token = sessionStorage.getItem('token') as string;
+        return next.handle(req.clone({setHeaders:{'authorization': token} }));
     }
 } 

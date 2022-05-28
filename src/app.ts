@@ -11,6 +11,7 @@ import connectionRouter from './routes/connection';
 import loginRouter from './routes/login'; 
 import productRouter from './routes/products'; 
 import usersRouter from './routes/users'; 
+import { authenticateToken } from './util/auth';
 
 const app = express();
 
@@ -23,8 +24,8 @@ app.use(express.json());
 
 app.use('/connection', connectionRouter);
 app.use('/login', loginRouter);
-app.use('/product', productRouter);
-app.use('/users', usersRouter);
+app.use('/product', authenticateToken, productRouter);
+app.use('/users', authenticateToken, usersRouter);
 app.use(welcomeRouter);
 
 sequelize.sync()

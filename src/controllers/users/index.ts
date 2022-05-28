@@ -1,4 +1,3 @@
-import { isAuthenticated, getConnectedUserId, isAdmin } from '../../util/auth';
 
 import User from '../../models/user';
 
@@ -8,17 +7,10 @@ export function getUsersPage(req: Request, res: Response): void {
     fetchUsers(req, res);
 }
 
-export function getUserProfile(req: Request, res: Response): void {
-    User.findOne({where: {id: getConnectedUserId(req)}})
+export function getUserProfile(req: any, res: Response): void {
+    User.findOne({where: {id: req.userId}})
     .then((user: any) => {
         res.json(user);
-        /*res.render('user-profile' , { 
-            pageTitle: 'User Profile Page',
-            page: '',
-            user: user,
-            isAuthenticated: isAuthenticated(req),
-            isAdmin: user && user.role === 'ADMIN',
-        });*/
     })
     .catch(err => {
         console.log(err)
@@ -80,16 +72,7 @@ export function deleteUser(req: Request, res: Response): void {
 
 function fetchUsers(req: Request, res: Response): void {
     User.findAll().then(users => {
-        isAdmin(req, isAnAdmin => {
-            res.json(users);
-            /*res.render('users', {
-                users: users,
-                pageTitle: 'Users Page',
-                page: 'users',
-                isAuthenticated: isAuthenticated(req),
-                isAdmin: isAnAdmin,
-            });*/
-        });
+        res.json(users);
     })
     .catch(err => {
         console.log(err)
