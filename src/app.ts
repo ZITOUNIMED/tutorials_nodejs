@@ -17,7 +17,7 @@ app.set('view engine', 'ejs');
 app.set('views', './src/views');
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(express.json());
 
 app.use('/connection', connectionRouter);
 app.use('/login', loginRouter);

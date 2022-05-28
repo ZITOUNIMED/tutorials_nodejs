@@ -28,6 +28,6 @@ export function init(sequelize: any) {
     modelName: 'Product',
   });
   return Product;
-};
+}
 
 export default Product;

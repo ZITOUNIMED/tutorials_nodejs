@@ -1,13 +1,15 @@
 import express from 'express';
 
-import { saveUser, getUsersPage, getUserProfilePage, deleteUser } from '../../controllers/users';
+import { createUser, updateUser, getUsersPage, getUserProfile, deleteUser } from '../../controllers/users';
 import { isAdminConnected } from '../../util/auth'; 
 
 const router = express.Router();
 
-router.get('/profile', getUserProfilePage);
+router.get('/profile', getUserProfile);
 
-router.post('/', isAdminConnected, saveUser);
+router.post('/', isAdminConnected, createUser);
+
+router.put('/', isAdminConnected, updateUser);
 
 router.delete('/:login', isAdminConnected, deleteUser);
 

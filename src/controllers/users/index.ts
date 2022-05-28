@@ -8,26 +8,39 @@ export function getUsersPage(req: Request, res: Response): void {
     fetchUsers(req, res);
 }
 
-export function getUserProfilePage(req: Request, res: Response): void {
+export function getUserProfile(req: Request, res: Response): void {
     User.findOne({where: {id: getConnectedUserId(req)}})
     .then((user: any) => {
-        res.render('user-profile' , { 
+        res.json(user);
+        /*res.render('user-profile' , { 
             pageTitle: 'User Profile Page',
             page: '',
             user: user,
             isAuthenticated: isAuthenticated(req),
             isAdmin: user && user.role === 'ADMIN',
-        });
+        });*/
     })
-    .catch(err => {console.log(err)});
+    .catch(err => {
+        console.log(err)
+        res.status(500).json(err)
+    });
 }
 
-export function saveUser(req: Request, res: Response): void {
-    const {firstName, lastName, login, role, postAction} = req.body;
+export function createUser(req: Request, res: Response): void {
+    const {firstName, lastName, login, role} = req.body;
 
-    if(postAction === 'update'){
-        res.statusCode = 200;
-        User.findOne({where: {login: login}})
+    User.create({firstName, lastName, login, role}).then(() => {
+        fetchUsers(req, res);
+    })
+    .catch(err => {
+        console.log(err)
+        res.status(500).json(err)
+    });
+}
+
+export function updateUser(req: Request, res: Response): void {
+    const {firstName, lastName, login, role} = req.body;
+    User.findOne({where: {login: login}})
         .then((user: any) => {
             if(user){
                 user.firstName = firstName;
@@ -35,54 +48,51 @@ export function saveUser(req: Request, res: Response): void {
                 user.role = role;
                 return user.save();
             }
-            return new Promise((_, reject) => {reject('User does not exist!')});
+            return new Promise((_, reject) => {reject({message: 'User does not exist!'})});
         })
         .then(() => {
             fetchUsers(req, res);
         })
-        .catch(err => {console.log(err)});
-    } else {
-        res.statusCode = 201;
-        User.create({firstName, lastName, login, role}).then(() => {
-            fetchUsers(req, res);
-        })
-        .catch(err => {console.log(err)});
-   }
+        .catch(err => {
+            console.log(err)
+            res.status(500).json(err)
+        });
 }
 
 export function deleteUser(req: Request, res: Response): void {
     const login = req.params.login;
-
-    res.setHeader('Content-Type', 'text/plain');
 
     User.findOne({where: {login: login}})
         .then((user: any) => {
             if(user){
                 return user.destroy();
             }
-            return new Promise((_, reject) => {reject('User does not exist!')});
+            return new Promise((_, reject) => {reject({message: 'User does not exist!'})});
         })
         .then(() => {
-            res.statusCode = 200;
-            res.end('User deleted with success!')
+            res.status(204).end();
         })
         .catch(err => {
             console.log(err);
-            res.statusCode = 404;
-            res.end(err.message);
+            res.status(404).json(err);
         });
 }
 
 function fetchUsers(req: Request, res: Response): void {
     User.findAll().then(users => {
         isAdmin(req, isAnAdmin => {
-            res.render('users', {
+            res.json(users);
+            /*res.render('users', {
                 users: users,
                 pageTitle: 'Users Page',
                 page: 'users',
                 isAuthenticated: isAuthenticated(req),
                 isAdmin: isAnAdmin,
-            });
+            });*/
         });
-    }).catch(err => {console.log(err)});
+    })
+    .catch(err => {
+        console.log(err)
+        res.status(500).json(err)
+    });
 }
