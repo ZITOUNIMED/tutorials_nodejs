@@ -6,6 +6,7 @@ export interface UserAttributes {
   lastName: string;
   login: string;
   role: string;
+  email?: string;
 }
 
 class User extends Model<UserAttributes> implements UserAttributes{
@@ -32,6 +33,12 @@ export function init(sequelize: any) {
       type: DataTypes.STRING,
       validate: {
         len: [3, 25]
+      }
+    },
+    email: {
+      type: DataTypes.STRING,
+      validate: {
+        isEmail: true
       }
     },
     login: {

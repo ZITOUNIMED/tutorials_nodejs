@@ -1,0 +1,55 @@
+<div class="signup-form">
+    <form [formGroup]="signUpForm" (submit)="submit()">
+		<h2>Sign up</h2>
+		<p class="hint-text">Create your account. It's free and only takes a minute.</p>
+        <div class="form-group">
+			<div class="row">
+				<div class="col">
+                    <input type="text" class="form-control" name="first_name" placeholder="First Name" formControlName="firstName"  [ngClass]="{'is-invalid': firstNameCtrl.errors && firstNameCtrl.dirty, 'is-valid': !firstNameCtrl.errors && firstNameCtrl.dirty}" name="firstName" formControlName="firstName">
+                    <div class="text-danger" *ngIf="firstNameCtrl.errors && firstNameCtrl.dirty">
+                        <span *ngIf="firstNameCtrl.errors['required']">First Name is required!</span>
+                        <span *ngIf="firstNameCtrl.errors['minlength']">Min length of this field is 3!</span>
+                        <span *ngIf="firstNameCtrl.errors['maxlength']">Max length of this field is 25!</span>
+                    </div>
+                </div>
+				<div class="col">
+                    <input type="text" class="form-control" name="last_name" placeholder="Last Name" formControlName="lastName" [ngClass]="{'is-invalid': lastNameCtrl.errors && lastNameCtrl.dirty, 'is-valid': !lastNameCtrl.errors && lastNameCtrl.dirty}" formControlName="lastName">
+                    <div class="text-danger" *ngIf="lastNameCtrl.errors && lastNameCtrl.dirty">
+                        <span *ngIf="lastNameCtrl.errors['required']">Last Name is required!</span>
+                        <span *ngIf="lastNameCtrl.errors['minlength']">Min length of this field is 3!</span>
+                        <span *ngIf="lastNameCtrl.errors['maxlength']">Max length of this field is 25!</span>
+                    </div>
+                </div>
+			</div>        	
+        </div>
+        <div class="form-group">
+        	<input type="email" class="form-control" name="email" placeholder="Email" formControlName="email">
+        </div>
+        <div class="form-group">
+        	<input type="text" class="form-control" name="login" placeholder="Login" formControlName="login" [ngClass]="{'is-invalid': loginCtrl.errors && loginCtrl.dirty, 'is-valid': !loginCtrl.errors && loginCtrl.dirty}">
+            <div class="text-danger" *ngIf="loginCtrl.errors && loginCtrl.dirty">
+                <span *ngIf="loginCtrl.errors['required']">Login is required!</span>
+                <span *ngIf="loginCtrl.errors['minlength']">Min length of this field is 3!</span>
+                <span *ngIf="loginCtrl.errors['maxlength']">Max length of this field is 15!</span>
+            </div>
+        </div>
+		<div class="form-group">
+            <input type="password" class="form-control" name="password" placeholder="Password" formControlName="password" [ngClass]="{'is-invalid': passwordCtrl.errors && passwordCtrl.dirty, 'is-valid': !passwordCtrl.errors && passwordCtrl.dirty}">
+            <div class="text-danger" *ngIf="passwordCtrl.errors && passwordCtrl.dirty">
+                <span *ngIf="passwordCtrl.errors['required']">Password is required!</span>
+                <span *ngIf="passwordCtrl.errors['minlength']">Min length of this field is 3!</span>
+                <span *ngIf="passwordCtrl.errors['maxlength']">Max length of this field is 15!</span>
+            </div>
+        </div>
+		<div class="form-group">
+            <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" formControlName="confirmPassword" [ngClass]="{'is-invalid': confirmPasswordCtrl.dirty && signUpForm.errors && signUpForm.errors['passwordsDifferent'], 'is-valid': confirmPasswordCtrl.dirty && (!signUpForm.errors! || !signUpForm.errors['passwordsDifferent'])}">
+            <div class="text-danger" *ngIf="signUpForm.errors && signUpForm.errors['passwordsDifferent']">
+                <span>Passwords are different!</span>
+            </div>
+        </div>        
+		<div class="form-group">
+            <button type="submit" class="btn btn-primary btn-lg btn-block" [disabled]="!signUpForm.valid">Sign up</button>
+        </div>
+    </form>
+	<div class="text-center">Already have an account? <a routerLink="/connection">Sign in</a></div>
+</div>

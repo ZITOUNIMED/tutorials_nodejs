@@ -27,16 +27,6 @@ export function authenticateToken(req: any, res: Response, next: NextFunction){
     })
 }
 
-export function isUserExisting(login: string, callback: (isOk: boolean, userId?: number) => void): void {
-    getUserByLogin(login).then(user => {
-        if(user){
-            callback(true, user.id);
-        } else {
-            callback(false);
-        }
-    });
-}
-
 export function isAdmin(req: any, callback: (isOk: boolean) => void): void {
     const id = req.userId;
 
