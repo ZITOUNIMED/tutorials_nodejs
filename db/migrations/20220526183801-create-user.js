@@ -21,6 +21,12 @@ module.exports = {
       role: {
         type: Sequelize.STRING
       },
+      email: {
+        type: Sequelize.STRING,
+        validate: {
+          isEmail: true
+        }
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

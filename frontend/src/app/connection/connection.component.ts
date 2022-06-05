@@ -23,7 +23,7 @@ export class ConnectionComponent implements OnInit {
 
   submit(){
     const value = this.connectionForm.value;
-    this.connectionService.login(value)
+    this.connectionService.signIn(value)
     .subscribe({
       next: res => {
         if(res.isAuthenticated){

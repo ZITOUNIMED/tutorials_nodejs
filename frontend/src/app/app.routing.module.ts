@@ -6,10 +6,12 @@ import { HomeComponent } from './home/home.component';
 import { ProductComponent } from './product/product.component';
 import { AuthAdminGuard } from './services/auth-admin-guard.service';
 import { AuthGuard } from './services/auth-guard.service';
+import { SignUpComponent } from './sign-up/sign-up.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserComponent } from './user/user.component';
 
 const routes: Routes = [
+    { path: 'sign-up', component: SignUpComponent },
     { path: 'connection', component: ConnectionComponent },
     { path: 'products', component: ProductComponent, canActivate: [AuthGuard]},
     { path: 'users', component: UserComponent, canActivate: [AuthGuard, AuthAdminGuard]},

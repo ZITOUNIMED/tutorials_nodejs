@@ -1,12 +1,11 @@
 import express from 'express';
-import path from 'path';
+
+import { signIn, signUp } from '../../controllers/connection';
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-        res.cookie('isAuthenticated', false);
-        res.cookie('login', '');
-        res.sendFile(path.join(__dirname, '..', '..', 'views', 'connection.html'));
-});
+router.post('/sign-in', signIn);
+
+router.post('/sign-up', signUp);
 
 export default router;

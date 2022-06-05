@@ -19,9 +19,9 @@ export function getUserProfile(req: any, res: Response): void {
 }
 
 export function createUser(req: Request, res: Response): void {
-    const {firstName, lastName, login, role} = req.body;
+    const {firstName, lastName, email, login, role} = req.body;
 
-    User.create({firstName, lastName, login, role}).then(() => {
+    User.create({firstName, lastName, email, login, role}).then(() => {
         fetchUsers(req, res);
     })
     .catch(err => {
@@ -31,12 +31,13 @@ export function createUser(req: Request, res: Response): void {
 }
 
 export function updateUser(req: Request, res: Response): void {
-    const {firstName, lastName, login, role} = req.body;
+    const {firstName, lastName, email, login, role} = req.body;
     User.findOne({where: {login: login}})
         .then((user: any) => {
             if(user){
                 user.firstName = firstName;
                 user.lastName = lastName;
+                user.email = email;
                 user.role = role;
                 return user.save();
             }

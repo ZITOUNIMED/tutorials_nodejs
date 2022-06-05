@@ -8,13 +8,13 @@ import { AuthService } from './services/auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  isConnectionPage = false;
+  hideHeader = false;
   constructor(private router: Router, private authService: AuthService){}
 
   ngOnInit(): void {
     this.router.events.subscribe((res: any) => {
       if(res && res.url){
-        this.isConnectionPage =  res.url.endsWith('connection')
+        this.hideHeader =  res.url.endsWith('connection') || res.url.endsWith('sign-up');
       }
     })
   }
@@ -27,6 +27,10 @@ export class AppComponent implements OnInit {
   login(){
     this.authService.setAuthConf({isAuthenticated: false, isAdmin: false, token: ''});
     this.router.navigate(['/connection']);
+  }
+
+  signUp(){
+    this.router.navigate(['/sign-up']);
   }
 
   userProfile(){

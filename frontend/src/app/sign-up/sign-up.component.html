@@ -1,0 +1,30 @@
+<main>
+    <div class="signup-form">
+        <form [formGroup]="signUpForm" (submit)="submit()">
+            <h2>Register</h2>
+            <p class="hint-text">Create your account. It's free and only takes a minute.</p>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col"><input type="text" class="form-control" name="first_name" placeholder="First Name" formControlName="firstName"></div>
+                    <div class="col"><input type="text" class="form-control" name="last_name" placeholder="Last Name" required="required" formControlName="lastName"></div>
+                </div>        	
+            </div>
+            <div class="form-group">
+                <input type="email" class="form-control" name="email" placeholder="Email" required="required" formControlName="email">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" name="login" placeholder="Login" required="required" formControlName="login">
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" name="password" placeholder="Password" required="required" formControlName="password">
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" formControlName="confirmPassword">
+            </div>        
+            <div class="form-group">
+                <button type="submit" [disabled]="!signUpForm?.valid" class="btn btn-primary">Sign up</button>
+            </div>
+        </form> 
+        <div class="text-center">Already have an account? <a routerLink="/connection">Sign in</a></div>
+    </div>
+</main>
