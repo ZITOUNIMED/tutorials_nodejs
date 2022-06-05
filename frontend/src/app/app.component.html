@@ -1,5 +1,5 @@
 <div class="container">
-  <header *ngIf="!isConnectionPage" class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+  <header *ngIf="!hideHeader" class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
           <li><a routerLink="/home" routerLinkActive="link-dark" class="nav-link px-2 link-secondary">Home</a></li>
           <li><a routerLink="/products" routerLinkActive="link-dark" class="nav-link px-2 link-secondary">Products</a></li>
@@ -10,7 +10,7 @@
           <button type="button" class="btn btn-outline-primary me-2" *ngIf="isAuthenticated" (click)="userProfile()"><i class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i> Profile</button>
           <button type="button" class="btn btn-outline-danger me-2" *ngIf="isAuthenticated" (click)="logout()">Logout <i class="fa fa-sign-out fa-lg" aria-hidden="true"></i></button>
           <button type="button" class="btn btn-outline-primary me-2" *ngIf="!isAuthenticated" (click)="login()"><i class="fa fa-sign-in fa-lg" aria-hidden="true"></i> Login</button>
-          <button type="button" class="btn btn-outline-success" *ngIf="!isAuthenticated"><i class="fa fa-user-plus fa-lg" aria-hidden="true"></i> Sign-up</button>
+          <button type="button" class="btn btn-outline-success" *ngIf="!isAuthenticated" (click)="signUp()"><i class="fa fa-user-plus fa-lg" aria-hidden="true"></i> Sign-up</button>
       </div>
   </header>
   <div>

@@ -15,6 +15,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ApphttpInterceptor } from './http-interceptor';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserModalComponent } from './user/user-modal/user-modal.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { UserModalComponent } from './user/user-modal/user-modal.component';
     ProductComponent,
     UserComponent,
     UserProfileComponent,
-    UserModalComponent
+    UserModalComponent,
+    SignUpComponent
   ],
   imports: [
     CommonModule,
