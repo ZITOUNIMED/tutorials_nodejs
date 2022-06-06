@@ -4,7 +4,9 @@
   "description": "Complete nodejs guide",
   "main": "./src/app.js",
   "scripts": {
-    "start": "npm run lint && ts-node ./src/app.ts",
+    "preinstall": "npm install -g @angular/cli -g copyfiles",
+    "start": "node ./dist/src/app.js",
+    "start:dev": "npm run lint && ts-node ./src/app.ts",
     "start:prod": "npm run build && node ./dist/app.js",
     "start:nodemon": "nodemon",
     "post-build:dev": "copyfiles ./frontend/dist/**/* ./src",
