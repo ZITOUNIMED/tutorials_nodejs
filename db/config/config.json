@@ -14,10 +14,6 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "",
-    "password": "",
-    "database": "",
-    "host": "",
-    "dialect": "mysql"
+    "use_env_variable": true
   }
 }

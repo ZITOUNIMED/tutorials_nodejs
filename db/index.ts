@@ -19,7 +19,10 @@ const db: {
 
 let sequelize: any;
 if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable] as string, config);
+  sequelize = new Sequelize(process.env.DATABASE as string, process.env.USERNAME as string, process.env.PASSWORD as string, {
+    host: process.env.HOST as string,
+    dialect: "mysql"
+  });
 } else {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
