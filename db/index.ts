@@ -26,7 +26,7 @@ if (config.use_env_variable) {
 fs
   .readdirSync(path.join(__dirname, '..', 'src', 'models'))
   .filter(file => {
-    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.ts');
+    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.ts' || file.slice(-3) === '.js');
   })
   .forEach(file => {
     /* eslint-disable */
