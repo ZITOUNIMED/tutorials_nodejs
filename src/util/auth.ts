@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 
 import { getUserByLogin, getUserById } from '../services/users';
 
-dotenv.config();
+dotenv.config({path: "./vars/.env"});
 
 export function generateAccessToken(login: string){
     const TOKEN_SECRET = process.env.TOKEN_SECRET as string;

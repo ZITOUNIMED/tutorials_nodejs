@@ -2,5 +2,5 @@
 /frontend/node_modules
 /frontend/dist
 /dist
-.env
-encrypt-passwords.js
+/examples/*.js
+/vars/*.env

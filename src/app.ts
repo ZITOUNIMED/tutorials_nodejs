@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 
 import sequelize from '../db';
 
-dotenv.config();
+dotenv.config({path: "./vars/.env"});
 
 import connectionRouter from './routes/connection'; 
 import productRouter from './routes/products'; 
