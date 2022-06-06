@@ -11,7 +11,7 @@
     "start:nodemon": "nodemon",
     "post-build:dev": "copyfiles ./frontend/dist/**/* ./src",
     "post-build:prod": "copyfiles ./frontend/dist/**/* ./dist/src",
-    "build:frontend": "cd frontend && ng build",
+    "build:frontend": "cd frontend && npm install && ng build",
     "build:backend": "tsc -p .",
     "build": "npm run build:frontend && npm run build:backend && npm run post-build:prod",
     "lint": "npx eslint . --fix"
