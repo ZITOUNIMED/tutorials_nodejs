@@ -7,7 +7,11 @@
     "start": "npm run lint && ts-node ./src/app.ts",
     "start:prod": "npm run build && node ./dist/app.js",
     "start:nodemon": "nodemon",
-    "build": "npx tsc",
+    "post-build:dev": "copyfiles ./frontend/dist/**/* ./src",
+    "post-build:prod": "copyfiles ./frontend/dist/**/* ./dist/src",
+    "build:frontend": "cd frontend && ng build",
+    "build:backend": "tsc -p .",
+    "build": "npm run build:frontend && npm run build:backend && npm run post-build:prod",
     "lint": "npx eslint . --fix"
   },
   "repository": {
