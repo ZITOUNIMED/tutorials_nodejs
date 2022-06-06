@@ -48,5 +48,9 @@
     "sequelize": "^6.19.2",
     "ts-node": "^10.8.0",
     "typescript": "^4.6.4"
+  },
+  "engines": {
+    "node": "14.16.1",
+    "npm": "6.14.12"
   }
 }
