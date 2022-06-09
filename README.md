@@ -11,3 +11,9 @@ $ npm install
 
 # run frontend project
 $ ng serve
+
+# build projects frontend & backend
+$ npm build
+
+# run project in production mode
+# npm start
