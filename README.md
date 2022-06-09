@@ -16,4 +16,4 @@ $ ng serve
 $ npm build
 
 # run project in production mode
-# npm start
+$ npm start
