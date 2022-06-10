@@ -31,5 +31,9 @@ export class UsersService {
   getUsers(): Observable<UserModel[]> {
     return this.http.get<UserModel[]>(this.url);
   }
+
+  generatePass(user: UserModel): Observable<any> {
+    return this.http.post(this.url + '/generate-pass', user)
+  }
 }
 

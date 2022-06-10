@@ -16,6 +16,7 @@ import { ApphttpInterceptor } from './http-interceptor';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserModalComponent } from './user/user-modal/user-modal.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
+import { GeneratePassModalComponent } from './user/generate-pass-modal/generate-pass-modal.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { SignUpComponent } from './sign-up/sign-up.component';
     UserComponent,
     UserProfileComponent,
     UserModalComponent,
-    SignUpComponent
+    SignUpComponent,
+    GeneratePassModalComponent
   ],
   imports: [
     CommonModule,

@@ -23,6 +23,13 @@
             <span *ngIf="lastNameCtrl.errors['maxlength']">Max length of this field is 25!</span>
         </div>
         <div class="mb-3">
+            <label for="login" class="form-label">E-mail</label>
+            <input type="text" class="form-control" id="email" name="email" [ngClass]="{'is-invalid': emailCtrl.errors && emailCtrl.dirty, 'is-valid': !emailCtrl.errors && emailCtrl.dirty}" formControlName="email">
+        </div>
+        <div class="mb-3 text-danger" *ngIf="emailCtrl.errors && emailCtrl.dirty">
+            <span *ngIf="emailCtrl.errors['email']">E-mail address is not valid!</span>
+        </div>
+        <div class="mb-3">
             <label for="login" class="form-label">Login</label>
             <input type="text" class="form-control" id="login" name="login" [ngClass]="{'is-invalid': loginCtrl.errors && loginCtrl.dirty, 'is-valid': !loginCtrl.errors && loginCtrl.dirty}" formControlName="login">
         </div>

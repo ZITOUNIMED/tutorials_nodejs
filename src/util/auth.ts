@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import bcrypt from 'bcrypt';
 
 import { getUserByLogin, getUserById } from '../services/users';
 
@@ -8,7 +9,7 @@ dotenv.config();
 
 export function generateAccessToken(login: string){
     const TOKEN_SECRET = process.env.TOKEN_SECRET as string;
-    return jwt.sign({username: login}, TOKEN_SECRET, {expiresIn: '1d'});
+    return jwt.sign({username: login}, TOKEN_SECRET, {expiresIn: '1h'});
 }
 
 export function authenticateToken(req: any, res: Response, next: NextFunction){
@@ -54,4 +55,11 @@ export function isAdminConnected(req: any, res: Response, next: NextFunction): v
             res.status(401).json({message: 'User is not Admin!'})
         }
     }).catch(err => {console.log(err)});
+}
+
+export function hashPass(password: string): Promise<any> {
+    return bcrypt.genSalt(10)
+    .then(salt => {
+        return bcrypt.hash(password, salt)
+    })
 }

@@ -37,6 +37,7 @@ export function init(sequelize: any) {
     },
     email: {
       type: DataTypes.STRING,
+      allowNull: true,
       validate: {
         isEmail: true
       }

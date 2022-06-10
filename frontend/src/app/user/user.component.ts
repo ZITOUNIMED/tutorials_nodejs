@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserModel } from '../models/user.model';
 import { UsersService } from '../services/users.service';
+import { GeneratePassModalComponent } from './generate-pass-modal/generate-pass-modal.component';
 import { UserModalComponent } from './user-modal/user-modal.component';
 
 @Component({
@@ -18,7 +19,7 @@ export class UserComponent implements OnInit {
     this.getUsers();
   }
 
-  openModal(user?: UserModel){
+  openModalUser(user?: UserModel){
     const modalRef = this.modalService.open(UserModalComponent);
     modalRef.componentInstance.user = user;
 
@@ -35,8 +36,21 @@ export class UserComponent implements OnInit {
     .catch();
   }
 
+  openModalGeneratePassword(user: UserModel){
+    const modalRef = this.modalService.open(GeneratePassModalComponent);
+    modalRef.componentInstance.user = user;
+
+    modalRef.result
+    .then(result => {
+      if(result){
+        console.log(result)
+      }
+    })
+    .catch();
+  }
+
   fillForm(user: UserModel){
-    this.openModal(user);
+    this.openModalUser(user);
   }
 
   remove(login: string): void {

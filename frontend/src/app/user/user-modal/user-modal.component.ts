@@ -10,12 +10,14 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class UserModalComponent implements OnInit {
   firstNameCtrl = new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]);
   lastNameCtrl = new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]);
+  emailCtrl = new FormControl(null, [Validators.email]);
   loginCtrl = new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(15)]);
   roleCtrl = new FormControl('USER', [Validators.required]);
 
   userForm: FormGroup = new FormGroup({
     firstName: this.firstNameCtrl,
     lastName: this.lastNameCtrl,
+    email: this.emailCtrl,
     login: this.loginCtrl,
     role: this.roleCtrl 
   });
@@ -30,6 +32,7 @@ export class UserModalComponent implements OnInit {
       this.loginCtrl.disable();
       this.firstNameCtrl.setValue(this.user.firstName);
       this.lastNameCtrl.setValue(this.user.lastName);
+      this.emailCtrl.setValue(this.user.email);
       this.roleCtrl.setValue(this.user.role);
     }
   }

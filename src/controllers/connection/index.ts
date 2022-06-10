@@ -1,16 +1,16 @@
 import { Response } from 'express';
 import bcrypt from 'bcrypt';
 
-import { createCredentials, getCredentialsByLogin } from '../../services/credentials';
+import { createCredentials, getCredentialsByLogin, isExpiredTemporaryPassword } from '../../services/credentials';
 import { createUser, getUserByLogin } from '../../services/users';
-import { isAdmin, generateAccessToken } from '../../util/auth';
+import { isAdmin, generateAccessToken, hashPass } from '../../util/auth';
 
 export function signIn(req: any, res: Response): void {
     const {login, password} = req.body;
 
     getCredentialsByLogin(login)
     .then((credentials: any) => {
-        if(!createCredentials){
+        if(!credentials || isExpiredTemporaryPassword(credentials)){
             res.status(401).json({isAuthenticated: false, isAdmin: false, token: ''}); // Unauthorized
         }
         return bcrypt.compare(password, credentials.password)
@@ -47,14 +47,10 @@ export function signUp(req: any, res: Response): void {
     })
     .then(user => {
         req.userId = user.id;
-        return bcrypt.genSalt(10);
+        return hashPass(password);
     })
-    .then(salt => {
-        return bcrypt.hash(password, salt)
-    })
-    .then(hashedPassword => {
-        
-        return createCredentials({login, password: hashedPassword});
+    .then(hashedPass => {
+        return createCredentials({login, password: hashedPass});
     })
     .then(() => {
         const token = generateAccessToken(login);

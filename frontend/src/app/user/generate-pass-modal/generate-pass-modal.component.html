@@ -1,0 +1,11 @@
+<div class="modal-header">
+    <h4 class="modal-title">Generate Password</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
+</div>
+<div class="modal-body">
+    <span [ngClass]="{'text-success': success, 'text-danger': fail}">{{message}}</span>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" style="margin-right: 5px;" (click)="activeModal.dismiss()">Close</button>
+    <button type="button" *ngIf="!success" (click)="generatePassword()" class="btn btn-success">Generate</button>
+</div>
