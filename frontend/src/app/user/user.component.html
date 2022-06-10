@@ -18,16 +18,17 @@
         <table class="table table-striped" id="usersTableId">
             <thead>
                 <tr>
-                    <th>First Name</th> <th>Last Name</th> <th>Login</th> <th>Role</th> 
+                    <th>First Name</th> <th>Last Name</th>  <th>E-mail</th> <th>Login</th> <th>Role</th> 
                     <th>
-                        <button class="btn btn-outline-success" (click)="openModal()"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></button>
+                        <button class="btn btn-outline-success" (click)="openModalUser()"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></button>
                     </th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let user of users">
                     <td>{{ user.firstName }}</td> 
-                    <td>{{ user.lastName }}</td>  
+                    <td>{{ user.lastName }}</td>
+                    <td>{{ user.email }} <button class="btn btn-outline-info btn-sm" *ngIf="user.email" (click)="openModalGeneratePass(user)"><i class="fa fa-key fa-sm" aria-hidden="true"></i></button></td>   
                     <td>{{ user.login }}</td> 
                     <td>{{ user.role }}</td> 
                     <td>

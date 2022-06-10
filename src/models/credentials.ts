@@ -4,6 +4,7 @@ export interface CredentialsAttributes {
   id?: number;
   login: string;
   password: string;
+  isTemporary?: boolean;
 }
 
 class Credentials extends Model<CredentialsAttributes> implements CredentialsAttributes {
@@ -27,7 +28,11 @@ export function init(sequelize: any) {
     password: {
       type: DataTypes.STRING,
       allowNull: false
-    }
+    },
+    isTemporary: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   }, {
     sequelize,
     modelName: 'Credentials',

@@ -1,6 +1,6 @@
 import Credentials from "../../models/credentials";
 
-export function createCredentials(credentials: {login: string, password: string}): Promise<any> {
+export function createCredentials(credentials: {login: string, password: string, isTemporary?: boolean}): Promise<any> {
     return Credentials.create(credentials);
 }
 
