@@ -9,7 +9,7 @@ dotenv.config();
 
 export function generateAccessToken(login: string){
     const TOKEN_SECRET = process.env.TOKEN_SECRET as string;
-    return jwt.sign({username: login}, TOKEN_SECRET, {expiresIn: '1d'});
+    return jwt.sign({username: login}, TOKEN_SECRET, {expiresIn: '1h'});
 }
 
 export function authenticateToken(req: any, res: Response, next: NextFunction){
