@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 
 import { createCredentials, getCredentialsByLogin } from '../../services/credentials';
 import { createUser, getUserByLogin } from '../../services/users';
-import { isAdmin, generateAccessToken } from '../../util/auth';
+import { isAdmin, generateAccessToken, hashPass } from '../../util/auth';
 
 export function signIn(req: any, res: Response): void {
     const {login, password} = req.body;
@@ -47,13 +47,9 @@ export function signUp(req: any, res: Response): void {
     })
     .then(user => {
         req.userId = user.id;
-        return bcrypt.genSalt(10);
-    })
-    .then(salt => {
-        return bcrypt.hash(password, salt)
+        return hashPass(password);
     })
     .then(hashedPassword => {
-        
         return createCredentials({login, password: hashedPassword});
     })
     .then(() => {
