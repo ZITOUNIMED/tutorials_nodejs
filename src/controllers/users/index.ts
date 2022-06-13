@@ -92,7 +92,7 @@ export function generatePass(req: Request, res: Response): void {
     const password = generateRandomPass(10);
     const template = `<p> 
         Hi <b>${firstName} ${lastName}</b>, a temporary password was sent to you <b>${password}</b>. Your login is <b>${login}</b>. <br/>
-        Now you can connect from <a href="${process.env.FRONTEND_PATH}/connection">here</a>.<br/>
+        Now you can connect from <a href="${process.env.FRONTEND_PATH}/#/connection">here</a>.<br/>
         <b>Attention!</b> This is a temporary password and it is valid just 1 hour.</b>
         Click <a href="${process.env.BACKEND_PATH}/update-pass/${login}">here</a> to update it.
     </p>`;

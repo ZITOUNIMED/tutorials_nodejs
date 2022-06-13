@@ -1,0 +1,8 @@
+<div class="card">
+    <div class="card-header bg-info text-white">
+        Products Amount Chart
+    </div>
+    <div class="card-body" *ngIf="data">
+        <chart [type]="'polarArea'" [data]="data" [options]="options" #ghraphElement></chart>
+    </div>
+</div>
