@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import bcrypt from 'bcrypt';
 
 import { getUserByLogin, getUserById } from '../services/users';
 
@@ -54,4 +55,11 @@ export function isAdminConnected(req: any, res: Response, next: NextFunction): v
             res.status(401).json({message: 'User is not Admin!'})
         }
     }).catch(err => {console.log(err)});
+}
+
+export function hashPass(password: string): Promise<any> {
+    return bcrypt.genSalt(10)
+    .then(salt => {
+        return bcrypt.hash(password, salt)
+    });
 }

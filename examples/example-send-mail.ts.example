@@ -1,0 +1,14 @@
+import { sendMail } from "../src/services/mail";
+
+
+const to = 'test@test.com';
+const subject = 'Test Nodemaile';
+const template = `<h3>Hello</h3>`;
+
+sendMail(to, subject, template)
+.then(res => {
+    console.log(res)
+})
+.catch(err => {
+    console.log(err)
+})
