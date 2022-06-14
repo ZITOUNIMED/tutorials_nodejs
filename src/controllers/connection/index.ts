@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import bcrypt from 'bcrypt';
 
-import { createCredentials, getCredentialsByLogin } from '../../services/credentials';
+import { createCredentials, getCredentialsByLogin, isTemporaryExpiredPass } from '../../services/credentials';
 import { createUser, getUserByLogin } from '../../services/users';
 import { isAdmin, generateAccessToken, hashPass } from '../../util/auth';
 
@@ -10,7 +10,7 @@ export function signIn(req: any, res: Response): void {
 
     getCredentialsByLogin(login)
     .then((credentials: any) => {
-        if(!createCredentials){
+        if(!credentials || isTemporaryExpiredPass(credentials)){
             res.status(401).json({isAuthenticated: false, isAdmin: false, token: ''}); // Unauthorized
         }
         return bcrypt.compare(password, credentials.password)
