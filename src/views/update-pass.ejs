@@ -10,9 +10,9 @@
     <main>
         <% if(updated) { %>
             <% if(success) { %>
-                <p style="color: green">Password was updated with success. You can use it to connect now from <a href="<%= frontendPath %>/connection">here</a>.</p>
+                <p style="color: green">Password was updated with success. You can use it to connect now from <a href="<%= frontendPath %>/#/connection">here</a>.</p>
             <% } else { %>
-                <p style="color: red">Sorry an error was occured during password update. Please contact <a href="<%= frontendPath %>/home">Customer Service</a>.</p>
+                <p style="color: red">Sorry an error was occured during password update. Please contact <a href="<%= frontendPath %>/#/home">Customer Service</a>.</p>
             <% } %>
         <% } else { %>
             <form method="POST" action="update">
