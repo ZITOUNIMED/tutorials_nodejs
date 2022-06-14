@@ -1,0 +1,12 @@
+<div class="card" *ngIf="data; else noData">
+    <div class="card-header text-white bg-info">
+        Products Amount Chart
+    </div>
+    <div class="card-body">
+        <canvas baseChart [type]="'polarArea'" [data]="data" [options]="options"></canvas>
+    </div>
+</div>
+
+<ng-template #noData>
+    <h4>Welcome to Med Products Managment App!</h4>
+</ng-template>

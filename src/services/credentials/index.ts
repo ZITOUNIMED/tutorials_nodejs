@@ -1,5 +1,5 @@
 import Credentials from "../../models/credentials";
-import moment, { now } from 'moment';
+import moment from 'moment';
 
 export function createCredentials(credentials: {login: string, password: string, isTemporary?: boolean}): Promise<any> {
     return Credentials.create(credentials);
@@ -25,4 +25,9 @@ export function isTemporaryExpiredPass(credentials: any): boolean{
         return validTime > createdTime;
     }
     return false;
+}
+
+export function deleteCredentialsByLogin(login: string): Promise<any> {
+    return Credentials.findOne({where: {login: login}})
+    .then(credentials => credentials?.destroy());
 }
