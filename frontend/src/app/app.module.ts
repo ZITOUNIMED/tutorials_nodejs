@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import { NgChartsModule } from 'ng2-charts';
 
 import { AppComponent } from './app.component';
 import { ConnectionComponent } from './connection/connection.component';
 import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app.routing.module';
-import { RouterModule } from '@angular/router';
 import { ProductComponent } from './product/product.component';
 import { UserComponent } from './user/user.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -17,6 +17,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserModalComponent } from './user/user-modal/user-modal.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { GeneratePassComponent } from './user/generate-pass/generate-pass.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -28,15 +29,16 @@ import { GeneratePassComponent } from './user/generate-pass/generate-pass.compon
     UserProfileComponent,
     UserModalComponent,
     SignUpComponent,
-    GeneratePassComponent
+    GeneratePassComponent,
+    DashboardComponent
   ],
   imports: [
     CommonModule,
-    RouterModule,
     ReactiveFormsModule,
     HttpClientModule,
     FormsModule,
     AppRoutingModule,
+    NgChartsModule,
     BrowserModule,
     NgbModule
   ],
