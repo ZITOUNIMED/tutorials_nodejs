@@ -1,9 +1,9 @@
 import { sendMail } from "../src/services/mail";
 
 
-const to = 'zitouni.mohamed.email@gmail.com';
-const subject = 'Test Nodemaile 2';
-const template = `<h3>Hello 2 Med</h3>`;
+const to = 'test@test.com';
+const subject = 'Test Nodemaile';
+const template = `<h3>Hello</h3>`;
 
 sendMail(to, subject, template)
 .then(res => {
